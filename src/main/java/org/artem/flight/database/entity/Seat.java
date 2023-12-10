@@ -1,4 +1,4 @@
-package org.artem.flight.entity;
+package org.artem.flight.database.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,16 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "schedule_seat")
-public class ReservationSeat implements BaseEntity<Long> {
+@Entity
+public class Seat implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Seat seat;
-
-    private Integer price;
-    private String status;
+    private String numberNo;
+    private String rank;
 }

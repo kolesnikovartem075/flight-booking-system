@@ -1,4 +1,4 @@
-package org.artem.flight.entity;
+package org.artem.flight.database.entity;
 
 public class Main {
     public static void main(String[] args) {

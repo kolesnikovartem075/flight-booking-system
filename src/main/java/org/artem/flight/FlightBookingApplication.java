@@ -1,4 +1,4 @@
-package org.artem.flight.entity;
+package org.artem.flight;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

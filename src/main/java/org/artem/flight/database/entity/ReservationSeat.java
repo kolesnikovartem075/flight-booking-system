@@ -1,4 +1,4 @@
-package org.artem.flight.entity;
+package org.artem.flight.database.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,22 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-public class Airline implements BaseEntity<Long> {
+@Entity(name = "schedule_seat")
+public class ReservationSeat implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @OneToOne
+    private Seat seat;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<Flight> flights;
+    private Integer price;
+    private String status;
 }
-

@@ -1,4 +1,4 @@
-package org.artem.flight.entity;
+package org.artem.flight.database.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
