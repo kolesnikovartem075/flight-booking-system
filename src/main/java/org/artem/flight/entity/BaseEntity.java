@@ -1,4 +1,4 @@
-package org.artem.flight.booking.system.entity;
+package org.artem.flight.entity;
 
 import java.io.Serializable;
 
