@@ -45,10 +45,10 @@ create table schedule_seat
 
 create table airport
 (
-    id             int,
-    flight_id      bigint references flight,
-    address_id        bigint references address,
-    name           varchar(128)
+    id         int,
+    flight_id  bigint references flight,
+    address_id bigint references address,
+    name       varchar(128)
 
 );
 
