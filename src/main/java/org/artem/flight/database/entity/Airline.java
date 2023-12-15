@@ -21,7 +21,7 @@ public class Airline implements BaseEntity<Long> {
 
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "airline")
     List<Flight> flights;
 }
 

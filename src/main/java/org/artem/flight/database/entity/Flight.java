@@ -22,15 +22,17 @@ public class Flight implements BaseEntity<Long> {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_id")
     private Airline airline;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Airport airport;
+
     @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,  mappedBy = "flight")
     List<Seat> seats = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight")
     List<Schedule> schedules = new ArrayList<>();
 
     private String flightNo;

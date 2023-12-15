@@ -1,52 +1,72 @@
--- --liquibase formatted sql
---
--- --changeset artem:1
--- CREATE TABLE IF NOT EXISTS users
--- (
---     id    SERIAL PRIMARY KEY,
---     name  VARCHAR(64) NOT NULL,
---     email VARCHAR(64) NOT NULL,
---     phone VARCHAR(64) NOT NULL
--- );
---
--- --changeset artem:2
--- CREATE TABLE IF NOT EXISTS item
--- (
---     id   SERIAL PRIMARY KEY,
---     name VARCHAR(64) NOT NULL UNIQUE
--- );
---
--- --changeset artem:3
--- CREATE TABLE IF NOT EXISTS duration
--- (
---     id           SERIAL PRIMARY KEY,
---     months_count INT
--- );
---
--- --changeset artem:4
--- CREATE TABLE IF NOT EXISTS price
--- (
---     id          SERIAL PRIMARY KEY,
---     item_id     INT REFERENCES item,
---     amount      INT,
---     duration_id INT REFERENCES duration
--- );
---
--- --changeset artem:5
--- CREATE TABLE IF NOT EXISTS subscription
--- (
---     id         SERIAL PRIMARY KEY,
---     user_id    INT REFERENCES users ON DELETE CASCADE,
---     item_id    INT REFERENCES item,
---     status     VARCHAR(32),
---     start_time DATE,
---     end_time   DATE
--- );
---
--- --changeset artem:6
--- CREATE TABLE IF NOT EXISTS orders
--- (
---     id              SERIAL PRIMARY KEY,
---     subscription_id INT REFERENCES subscription ON DELETE CASCADE,
---     price_id        INT REFERENCES price
--- );
+--liquibase formatted sql
+
+--changeset artem:1
+create table airline
+(
+    id    BIGSERIAL PRIMARY KEY,
+    title varchar(128)
+
+);
+
+--changeset artem:2
+create table address
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name varchar(128)
+
+);
+
+
+--changeset artem:3
+create table airport
+(
+    id         BIGSERIAL PRIMARY KEY,
+    address_id bigint references address,
+    name       varchar(128)
+
+);
+
+--changeset artem:4
+create table flight
+(
+    id            BIGSERIAL PRIMARY KEY,
+    flight_no     varchar(128),
+    airport_id    bigint references airport,
+    airline_id    bigint references airline,
+    seat_capacity int
+);
+
+--changeset artem:5
+create table seat
+(
+    id        BIGSERIAL PRIMARY KEY,
+    flight_id bigint references flight,
+    number_no varchar(64),
+    rank      varchar(64)
+);
+
+--changeset artem:6
+create table schedule
+(
+    id               BIGSERIAL PRIMARY KEY,
+    flight_id        bigint references flight,
+    start_airport_id bigint references airport,
+    end_airport_id   bigint references airport,
+    start_time       timestamp,
+    end_time         timestamp,
+    status           varchar(64)
+
+);
+
+--changeset artem:7
+create table schedule_seat
+(
+    id          BIGSERIAL PRIMARY KEY,
+    schedule_id bigint references schedule,
+    seat_id     bigint references seat,
+    status      varchar(64),
+    price       int,
+    unique (schedule_id, seat_id)
+);
+
+

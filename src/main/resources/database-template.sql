@@ -47,7 +47,7 @@ create table airport
 (
     id             int,
     flight_id      bigint references flight,
-    address        bigint references address,
+    address_id        bigint references address,
     name           varchar(128)
 
 );

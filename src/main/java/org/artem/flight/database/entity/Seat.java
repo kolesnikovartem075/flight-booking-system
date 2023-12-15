@@ -17,6 +17,9 @@ public class Seat implements BaseEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    private Flight flight;
+
     private String numberNo;
     private String rank;
 }

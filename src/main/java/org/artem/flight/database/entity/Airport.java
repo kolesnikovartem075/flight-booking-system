@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,13 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Airport implements BaseEntity<Integer> {
+public class Airport implements BaseEntity<Long> {
 
     @Id
-    private Integer id;
+    private Long id;
 
-    @OneToMany
-    private List<Flight> flights;
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airport")
+    private List<Flight> flights = new ArrayList<>();
 
     @ManyToOne
     private Address address;

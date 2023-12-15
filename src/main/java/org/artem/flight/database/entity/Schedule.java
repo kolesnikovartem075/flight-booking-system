@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.security.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -21,7 +23,6 @@ public class Schedule implements BaseEntity<Long> {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "flight_id")
     private Flight flight;
 
     @ManyToOne
@@ -33,13 +34,14 @@ public class Schedule implements BaseEntity<Long> {
     private Airport destination;
 
     @Column(name = "start_time")
-    private Timestamp startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time")
-    private Timestamp endTime;
+    private LocalDateTime endTime;
 
     private String status;
 
     @OneToMany
+    @JoinColumn(name = "schedule_id")
     private List<ReservationSeat> reservationSeats;
 }
