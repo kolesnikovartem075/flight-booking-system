@@ -6,5 +6,8 @@ import lombok.Value;
 public class ReservationSeatCreateEditDto {
 
 
-
+    Long scheduleId;
+    Long seatId;
+    Long userId;
+    Integer price;
 }

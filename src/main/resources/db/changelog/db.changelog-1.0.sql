@@ -64,9 +64,17 @@ create table schedule_seat
     id          BIGSERIAL PRIMARY KEY,
     schedule_id bigint references schedule,
     seat_id     bigint references seat,
-    status      varchar(64),
+    user_id     bigint references user,
     price       int,
     unique (schedule_id, seat_id)
+);
+
+
+--changeset artem:7
+create table user
+(
+    id    BIGSERIAL PRIMARY KEY,
+    email varchar(128) unique,
 );
 
 

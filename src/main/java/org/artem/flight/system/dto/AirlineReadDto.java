@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 public class AirlineReadDto {
 
-
-
+    Long id;
+    String name;
 }

@@ -5,5 +5,5 @@ import lombok.Value;
 @Value
 public class AirlineCreateEditDto {
 
-
+    String title;
 }

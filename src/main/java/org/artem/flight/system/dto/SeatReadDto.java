@@ -7,5 +7,6 @@ public class SeatReadDto {
 
 
     Long id;
-
+    String numberNo;
+    String rank;
 }

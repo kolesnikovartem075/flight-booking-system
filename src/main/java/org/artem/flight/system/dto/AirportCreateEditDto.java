@@ -7,5 +7,5 @@ public class AirportCreateEditDto {
 
 
     String name;
-    AddressCreateEditDto addressDto;
+    Long addressId;
 }

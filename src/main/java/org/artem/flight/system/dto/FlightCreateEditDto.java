@@ -6,5 +6,7 @@ import lombok.Value;
 public class FlightCreateEditDto {
 
 
-
+    String flightNo;
+    Long airportId;
+    Long airlineId;
 }

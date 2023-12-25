@@ -31,10 +31,6 @@ public class Flight implements BaseEntity<Long> {
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "flight")
     List<Seat> seats = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight")
-    List<Schedule> schedules = new ArrayList<>();
-
     private String flightNo;
     private Integer seatCapacity;
 }

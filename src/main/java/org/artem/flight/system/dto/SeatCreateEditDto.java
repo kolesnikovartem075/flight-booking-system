@@ -6,5 +6,7 @@ import lombok.Value;
 public class SeatCreateEditDto {
 
 
-
+    Long flightId;
+    String numberNo;
+    String rank;
 }
