@@ -7,5 +7,5 @@ import lombok.Value;
 public class AirlineReadDto {
 
     Long id;
-    String name;
+    String title;
 }

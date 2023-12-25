@@ -11,6 +11,6 @@ public class AirlineReadMapper implements Mapper<Airline, AirlineReadDto> {
 
     @Override
     public AirlineReadDto map(Airline object) {
-        return null;
+        return new AirlineReadDto(object.getId(), object.getTitle());
     }
 }

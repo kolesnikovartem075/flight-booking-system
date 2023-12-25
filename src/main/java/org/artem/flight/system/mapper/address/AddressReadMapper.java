@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressReadMapper implements Mapper<Address, AddressReadDto> {
     public AddressReadDto map(Address object) {
-        return null;
+        return new AddressReadDto(object.getId(), object.getName());
     }
 }

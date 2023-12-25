@@ -10,4 +10,5 @@ public class ReservationSeatCreateEditDto {
     Long seatId;
     Long userId;
     Integer price;
+    String status;
 }

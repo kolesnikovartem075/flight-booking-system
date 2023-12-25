@@ -1,10 +1,12 @@
 package org.artem.flight.system.dto;
 
+import lombok.Builder;
 import lombok.Value;
 
 import java.util.List;
 
 @Value
+@Builder
 public class FlightReadDto {
 
 
@@ -13,5 +15,5 @@ public class FlightReadDto {
     AirportReadDto airport;
     AirlineReadDto airline;
     List<SeatReadDto> seats;
-    Long seatCapacity;
+    Integer seatCapacity;
 }

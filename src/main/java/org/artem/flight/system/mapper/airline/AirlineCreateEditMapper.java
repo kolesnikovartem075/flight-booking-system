@@ -11,11 +11,19 @@ public class AirlineCreateEditMapper implements Mapper<AirlineCreateEditDto, Air
 
     @Override
     public Airline map(AirlineCreateEditDto object) {
-        return null;
+        var airline = new Airline();
+        copy(object, airline);
+
+        return airline;
     }
 
     @Override
     public Airline map(AirlineCreateEditDto fromObject, Airline toObject) {
-        return Mapper.super.map(fromObject, toObject);
+        copy(fromObject, toObject);
+        return toObject;
+    }
+
+    private void copy(AirlineCreateEditDto fromObject, Airline target) {
+        target.setTitle(fromObject.getTitle());
     }
 }

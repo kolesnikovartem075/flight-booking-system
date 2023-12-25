@@ -7,6 +7,8 @@ public class ReservationSeatReadDto {
 
 
     Long id;
+
+    SeatReadDto seat;
     String status;
     Integer price;
 }

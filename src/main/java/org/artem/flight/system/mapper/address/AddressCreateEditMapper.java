@@ -10,10 +10,18 @@ public class AddressCreateEditMapper implements Mapper<AddressCreateEditDto, Add
 
 
     public Address map(AddressCreateEditDto object) {
-        return null;
+        var address = new Address();
+        copy(object, address);
+
+        return address;
     }
 
     public Address map(AddressCreateEditDto fromObject, Address toObject) {
-        return null;
+        copy(fromObject, toObject);
+        return toObject;
+    }
+
+    private void copy(AddressCreateEditDto fromObject, Address target) {
+        target.setName(fromObject.getName());
     }
 }
