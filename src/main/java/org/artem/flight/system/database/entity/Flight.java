@@ -24,6 +24,7 @@ public class Flight implements BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     private Airline airline;
 
+    //maybe delete not sure
     @ManyToOne(fetch = FetchType.LAZY)
     private Airport airport;
 

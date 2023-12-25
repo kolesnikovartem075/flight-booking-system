@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SeatReadMapper implements Mapper<Seat, SeatReadDto> {
     public SeatReadDto map(Seat object) {
-        return null;
+        return new SeatReadDto(object.getId(), object.getNumberNo(), object.getRank());
     }
 }
