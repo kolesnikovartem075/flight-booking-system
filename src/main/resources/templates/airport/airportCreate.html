@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Airport</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <form th:action="@{/airports/createAirport}" method="post" th:object="${airport}">
+    <h4>Create Airport</h4>
+    <div class="row mb-2">
+      <label for="name" class="col-sm-2 col-form-label">Name:</label>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="name" th:field="*{name}">
+        <div th:if="${bindingResult}">
+          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('months')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="activity" class="col-sm-2 col-form-label">Country:</label>
+      <select class="form-select form-select-sm col-sm-2 w-auto" name="countryId" id="activity">
+        <option th:each="country : ${countries}"
+                th:value="${country.id}"
+                th:selected="${country.id == airport.countryId}"
+                th:text="${country.name}">
+            Country Name
+        </option>
+      </select>
+      <div th:if="${bindingResult}">
+        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('countryId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      </div>
+    </div>
+      <div class="row mb-5">
+          <label for="cityName" class="col-sm-2 col-form-label">City:</label>
+          <div class="col-sm-2">
+              <input type="text" class="form-control" id="cityName" th:field="*{cityName}">
+              <div th:if="${bindingResult}">
+                  <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('cityName')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+              </div>
+          </div>
+      </div>
+    <button class="btn btn-primary" type="submit">Create</button>
+  </form>
+</div>
+</body>
+</html>

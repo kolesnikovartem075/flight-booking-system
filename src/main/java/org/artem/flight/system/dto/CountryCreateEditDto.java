@@ -3,7 +3,7 @@ package org.artem.flight.system.dto;
 import lombok.Value;
 
 @Value
-public class AddressCreateEditDto {
+public class CountryCreateEditDto {
 
 
     String name;

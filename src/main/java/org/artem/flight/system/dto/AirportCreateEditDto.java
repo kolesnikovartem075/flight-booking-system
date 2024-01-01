@@ -7,5 +7,6 @@ public class AirportCreateEditDto {
 
 
     String name;
-    Long addressId;
+    String cityName;
+    Long countryId;
 }

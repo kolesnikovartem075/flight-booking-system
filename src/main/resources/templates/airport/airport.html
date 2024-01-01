@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Airports</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Airport</h4>
+    <div class="row mb-5">
+        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="name"
+                   th:placeholder="${airport.name}"
+                   disabled>
+        </div>
+    </div>
+    <div th:with="city=${airport.cityDto}">
+        <div class="row mb-5">
+            <label for="countryName" class="col-sm-2 col-form-label">Country:</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="countryName"
+                       th:placeholder="${city.country.name}"
+                       disabled>
+            </div>
+        </div>
+    </div>
+    <div th:with="city=${airport.cityDto}">
+        <div class="row mb-5">
+            <label for="cityName" class="col-sm-2 col-form-label">City:</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="cityName"
+                       th:placeholder="${city.name}"
+                       disabled>
+            </div>
+        </div>
+    </div>
+    <div class="btn-group mt-2">
+        <a class="btn btn-primary p-lg"
+           th:href="@{/airports/{airportId}/update(airportId=${airport.id})}"
+           role="button">Update airport</a>
+        <form th:action="@{/airports/{airportId}/delete(airportId=${airport.id})}" method="post">
+            <button type="submit" class="btn btn-primary btn-danger ms-3">Remove</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
