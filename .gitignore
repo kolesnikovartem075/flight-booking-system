@@ -43,4 +43,4 @@ gradle-app.setting
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 
-./*/todo-file.txt
+todo-file.txt
