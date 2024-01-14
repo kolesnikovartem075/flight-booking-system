@@ -39,7 +39,6 @@ public class FlightService {
         return Optional.of(flightDto)
                 .map(flightCreateEditMapper::map)
                 .map(flightRepository::save)
-                .map(value -> createSeats(value, flightDto))
                 .map(flightReadMapper::map)
                 .orElseThrow();
     }
@@ -61,17 +60,5 @@ public class FlightService {
                     return true;
                 })
                 .orElse(false);
-    }
-
-    private Flight createSeats(Flight flight, FlightCreateEditDto flightDto) {
-        setFlightId(flight, flightDto);
-        var seatCapacity = seatService.create(flightDto.getSeats());
-
-        flight.setSeatCapacity(seatCapacity);
-        return flight;
-    }
-
-    private void setFlightId(Flight flight, FlightCreateEditDto flightDto) {
-        flightDto.getSeats().forEach(seatDto -> seatDto.setFlightId(flight.getId()));
     }
 }

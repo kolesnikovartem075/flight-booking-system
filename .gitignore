@@ -42,3 +42,5 @@ gradle-app.setting
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+
+./*/todo-file.txt

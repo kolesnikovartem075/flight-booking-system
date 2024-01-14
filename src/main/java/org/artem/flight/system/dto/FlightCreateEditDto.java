@@ -10,5 +10,5 @@ public class FlightCreateEditDto {
 
     String flightNo;
     Long airlineId;
-    List<SeatCreateEditDto> seats;
+    SeatCreateEditDto seats;
 }

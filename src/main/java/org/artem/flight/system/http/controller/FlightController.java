@@ -4,8 +4,11 @@ package org.artem.flight.system.http.controller;
 import lombok.RequiredArgsConstructor;
 import org.artem.flight.system.dto.FlightCreateEditDto;
 import org.artem.flight.system.dto.FlightCreateEditDto;
+import org.artem.flight.system.dto.SeatCreateEditDto;
+import org.artem.flight.system.dto.SeatReadDto;
 import org.artem.flight.system.service.AirlineService;
 import org.artem.flight.system.service.FlightService;
+import org.artem.flight.system.service.SeatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FlightController {
 
     private final FlightService flightService;
+    private final SeatService seatService;
     private final AirlineService airlineService;
 
     @GetMapping
@@ -59,6 +63,21 @@ public class FlightController {
         }
 
         return "redirect:/flights/" + flightService.create(flight).getId();
+    }
+
+    @PostMapping("/createSeat")
+    public String createSeat(@Validated SeatCreateEditDto seat,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+        var flightId = seat.getFlightId();
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("seat", seat);
+            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+            return "redirect:/flights/" + flightId;
+        }
+
+        seatService.create(seat);
+        return "redirect:/flights/" + flightId;
     }
 
     @GetMapping("{id}/update")

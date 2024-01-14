@@ -27,6 +27,51 @@
             </div>
         </div>
     </div>
+    <br>
+    <h3>Seats</h3>
+    <div th:each="seat : ${flight.seats}">
+        <div class="row">
+            <div class="mb-4">
+                <label for="numberNo" class="col-sm-2 col-form-label">NumberNO:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="numberNo"
+                           th:placeholder="${seat.numberNo}"
+                           disabled>
+                </div>
+            </div>
+            <div class="mb-5">
+                <label for="rank" class="col-sm-2 col-form-label">Rank:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="rank"
+                           th:placeholder="${seat.rank}"
+                           disabled>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <form th:action="@{/flights/createSeat}" method="post" th:object="${flight}">
+        <input hidden="hidden" th:value="${flight.id}" name="flightId">
+        <div class="row mb-2">
+            <label for="numberNo" class="col-sm-2 col-form-label">Flight NO:</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="numberNo">
+                <div th:if="${bindingResult}">
+                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('numberNo')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <label for="rank" class="col-sm-2 col-form-label">Rank: </label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="rank">
+                <div th:if="${bindingResult}">
+                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('rank')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Add seat</button>
+    </form>
     <div class="btn-group mt-2">
         <a class="btn btn-primary p-lg"
            th:href="@{/flights/{flightId}/update(flightId=${flight.id})}"
