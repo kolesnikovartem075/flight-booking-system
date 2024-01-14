@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Flights</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Flight</h4>
+    <div class="row mb-5">
+        <label for="flightNo" class="col-sm-2 col-form-label">Flight Number:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="flightNo"
+                   th:placeholder="${flight.flightNo}"
+                   disabled>
+        </div>
+    </div>
+    <div th:with="airline=${flight.airline}">
+        <div class="row mb-5">
+            <label for="cityName" class="col-sm-2 col-form-label">Airline:</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="cityName"
+                       th:placeholder="${airline.title}"
+                       disabled>
+            </div>
+        </div>
+    </div>
+    <div class="btn-group mt-2">
+        <a class="btn btn-primary p-lg"
+           th:href="@{/flights/{flightId}/update(flightId=${flight.id})}"
+           role="button">Update flight</a>
+        <form th:action="@{/flights/{flightId}/delete(flightId=${flight.id})}" method="post">
+            <button type="submit" class="btn btn-primary btn-danger ms-3">Remove</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

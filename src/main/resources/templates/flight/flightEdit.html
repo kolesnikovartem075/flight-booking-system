@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Flights</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <form th:action="@{/flights/{flightId}/updateFlight(flightId=${flight.id})}" method="post">
+    <h4>Edit Flight</h4>
+    <div class="row mb-2">
+      <label for="name" class="col-sm-2 col-form-label">Name:</label>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="name" name="name" th:field="${flight.flightNo}">
+        <div th:if="${bindingResult}">
+          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('months')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mb-2">
+      <label for="activity" class="col-sm-2 col-form-label">Country:</label>
+      <select class="form-select form-select-sm col-sm-2 w-auto" name="countryId" id="activity">
+        <option th:each="airline : ${airlines}"
+                th:value="${airline.id}"
+                th:selected="${airline.id == flight.airline.id}"
+                th:text="${airline.title}">
+          Country Name
+        </option>
+      </select>
+      <div th:if="${bindingResult}">
+        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('countryId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">Update</button>
+  </form>
+  <form th:action="@{/flights/{flightId}/delete(flightId=${flight.id})}" method="post">
+    <button class="btn btn-outline-danger mt-2" type="submit">Remove</button>
+  </form>
+</div>
+</body>
+</html>

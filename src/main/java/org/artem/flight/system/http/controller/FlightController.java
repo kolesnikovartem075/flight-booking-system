@@ -4,6 +4,7 @@ package org.artem.flight.system.http.controller;
 import lombok.RequiredArgsConstructor;
 import org.artem.flight.system.dto.FlightCreateEditDto;
 import org.artem.flight.system.dto.FlightCreateEditDto;
+import org.artem.flight.system.service.AirlineService;
 import org.artem.flight.system.service.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FlightController {
 
     private final FlightService flightService;
+    private final AirlineService airlineService;
 
     @GetMapping
     public String findAll(Model model) {
@@ -41,6 +43,8 @@ public class FlightController {
     public String create(Model model,
                          @ModelAttribute("flight") FlightCreateEditDto flight) {
         model.addAttribute("flight", flight);
+        model.addAttribute("airlines", airlineService.findAll());
+
         return "flight/flightCreate";
     }
 
@@ -62,6 +66,7 @@ public class FlightController {
         return flightService.findById(id)
                 .map(flight -> {
                     model.addAttribute("flight", flight);
+                    model.addAttribute("airlines", airlineService.findAll());
                     return "flight/flightEdit";
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

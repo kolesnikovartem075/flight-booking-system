@@ -43,6 +43,13 @@ public class SeatService {
     }
 
     @Transactional
+    public Integer create(List<SeatCreateEditDto> seatDto) {
+        return Math.toIntExact(seatDto.stream()
+                .map(this::create)
+                .count());
+    }
+
+    @Transactional
     public Optional<SeatReadDto> update(Long id, SeatCreateEditDto seatDto) {
         return seatRepository.findById(id)
                 .map(entity -> seatCreateEditMapper.map(seatDto, entity))

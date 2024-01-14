@@ -24,10 +24,6 @@ public class Flight implements BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     private Airline airline;
 
-    //maybe delete not sure
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Airport airport;
-
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "flight")
     List<Seat> seats = new ArrayList<>();

@@ -24,22 +24,16 @@ public class FlightReadMapper implements Mapper<Flight, FlightReadDto> {
 
 
     public FlightReadDto map(Flight object) {
-        var airport = getAirport(object);
         var airline = getAirline(object);
         var seats = getSeats(object);
 
         return FlightReadDto.builder()
                 .id(object.getId())
                 .flightNo(object.getFlightNo())
-                .airport(airport)
                 .airline(airline)
                 .seats(seats)
                 .seatCapacity(seats.size())
                 .build();
-    }
-
-    private AirportReadDto getAirport(Flight object) {
-        return airportReadMapper.map(object.getAirport());
     }
 
     private AirlineReadDto getAirline(Flight object) {

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Airlines</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Airline</h4>
+    <div class="row mb-5">
+        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="name"
+                   th:placeholder="${airline.title}"
+                   disabled>
+        </div>
+    </div>
+    <div class="btn-group mt-2">
+        <a class="btn btn-primary p-lg"
+           th:href="@{/airlines/{airlineId}/update(airlineId=${airline.id})}"
+           role="button">Update airline</a>
+        <form th:action="@{/airlines/{airlineId}/delete(airlineId=${airline.id})}" method="post">
+            <button type="submit" class="btn btn-primary btn-danger ms-3">Remove</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
