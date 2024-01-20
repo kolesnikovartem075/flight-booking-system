@@ -3,9 +3,11 @@ package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.artem.flight.system.dto.FlightCreateEditDto;
+import org.artem.flight.system.dto.ScheduleCreateEditDto;
 import org.artem.flight.system.dto.SeatCreateEditDto;
 import org.artem.flight.system.service.AirlineService;
 import org.artem.flight.system.service.FlightService;
+import org.artem.flight.system.service.ScheduleService;
 import org.artem.flight.system.service.SeatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,99 +19,99 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/flights")
+@RequestMapping("/schedules")
 @RequiredArgsConstructor
-public class FlightController {
+public class ScheduleController {
 
-    private final FlightService flightService;
+    private final ScheduleService scheduleService;
     private final SeatService seatService;
     private final AirlineService airlineService;
 
     @GetMapping
     public String findAll(Model model) {
-        model.addAttribute("flights", flightService.findAll());
+        model.addAttribute("schedules", scheduleService.findAll());
 
-        return "flight/flights";
+        return "schedule/schedules";
     }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable Long id, Model model) {
-        return flightService.findById(id)
-                .map(flight -> {
-                    model.addAttribute("flight", flight);
-                    return "flight/flight";
+        return scheduleService.findById(id)
+                .map(schedule -> {
+                    model.addAttribute("schedule", schedule);
+                    return "schedule/schedule";
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/create")
     public String create(Model model,
-                         @ModelAttribute("flight") FlightCreateEditDto flight) {
-        model.addAttribute("flight", flight);
+                         @ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
+        model.addAttribute("schedule", schedule);
         model.addAttribute("airlines", airlineService.findAll());
 
-        return "flight/flightCreate";
+        return "schedule/scheduleCreate";
     }
 
-    @PostMapping("/createFlight")
-    public String createFlight(@Validated FlightCreateEditDto flight,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+    @PostMapping("/createSchedule")
+    public String createSchedule(@Validated ScheduleCreateEditDto schedule,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("flight", flight);
+            redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-            return "redirect:/flights/create";
+            return "redirect:/schedules/create";
         }
 
-        return "redirect:/flights/" + flightService.create(flight).getId();
+        return "redirect:/schedules/" + scheduleService.create(schedule).getId();
     }
 
     @PostMapping("/createSeat")
     public String createSeat(@Validated SeatCreateEditDto seat,
-                             BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
-        var flightId = seat.getFlightId();
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+        var scheduleId = seat.getFlightId();
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("seat", seat);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-            return "redirect:/flights/" + flightId;
+            return "redirect:/schedules/" + scheduleId;
         }
 
         seatService.create(seat);
-        return "redirect:/flights/" + flightId;
+        return "redirect:/schedules/" + scheduleId;
     }
 
     @GetMapping("{id}/update")
     public String update(@PathVariable Long id, Model model) {
-        return flightService.findById(id)
-                .map(flight -> {
-                    model.addAttribute("flight", flight);
+        return scheduleService.findById(id)
+                .map(schedule -> {
+                    model.addAttribute("schedule", schedule);
                     model.addAttribute("airlines", airlineService.findAll());
-                    return "flight/flightEdit";
+                    return "schedule/scheduleEdit";
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("{id}/updateFlight")
-    public String updateFlight(@PathVariable Long id,
-                               @Validated FlightCreateEditDto flight,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+    @PostMapping("{id}/updateSchedule")
+    public String updateSchedule(@PathVariable Long id,
+                                @Validated ScheduleCreateEditDto schedule,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("flight", flight);
+            redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-            return "redirect:/flights/{id}/update";
+            return "redirect:/schedules/{id}/update";
         }
 
-        return flightService.update(id, flight)
-                .map(it -> "redirect:/flights/{id}/update")
+        return scheduleService.update(id, schedule)
+                .map(it -> "redirect:/schedules/{id}/update")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
-        if (!flightService.delete(id)) {
+        if (!scheduleService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        return "redirect:/flights";
+        return "redirect:/schedules";
     }
 }
