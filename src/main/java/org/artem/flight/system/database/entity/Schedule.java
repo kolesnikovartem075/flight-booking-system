@@ -1,14 +1,14 @@
 package org.artem.flight.system.database.entity;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ToString(exclude = {"reservationSeats", "flight"})
+@EqualsAndHashCode(exclude = {"reservationSeats", "flight"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,7 +39,6 @@ public class Schedule implements BaseEntity<Long> {
 
     private String status;
 
-    @OneToMany
-    @JoinColumn(name = "schedule_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "schedule")
     private List<ReservationSeat> reservationSeats;
 }

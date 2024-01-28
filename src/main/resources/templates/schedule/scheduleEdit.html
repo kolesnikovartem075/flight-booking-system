@@ -8,32 +8,110 @@
 </head>
 <body>
 <div layout:fragment="content">
-  <form th:action="@{/seats/createSeat}" method="post" th:object="${seat}">
-    <h4>Create Airport</h4>
+  <form th:action="@{/schedules/{scheduleId}/updateSchedule(scheduleId=${schedule.id})}" method="post">
+    <h4>Edit Schedule</h4>
     <div class="row mb-2">
-      <label for="seatNo" class="col-sm-2 col-form-label">Seat NO:</label>
+      <label for="flight" class="col-sm-2 col-form-label">Flight:</label>
+      <select class="form-select form-select-sm col-sm-2 w-auto" name="flightId" id="flight">
+        <option th:each="flight : ${flights}"
+                th:value="${flight.id}"
+                th:selected="${flight.id == schedule.flight.id}"
+                th:text="${flight.flightNo}">
+          Flight Number
+        </option>
+      </select>
+      <div th:if="${bindingResult}">
+        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('flight.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="startAirport" class="col-sm-2 col-form-label">Start Airport:</label>
+      <select class="form-select form-select-sm col-sm-2 w-auto" name="startAirportId" id="startAirport">
+        <option th:each="airport : ${airports}"
+                th:value="${airport.id}"
+                th:selected="${airport.id == schedule.start.id}"
+                th:text="${airport.name}">
+          Airport Name
+        </option>
+      </select>
+      <div th:if="${bindingResult}">
+        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('start.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="endAirport" class="col-sm-2 col-form-label">Destination Airport:</label>
+      <select class="form-select form-select-sm col-sm-2 w-auto" name="endAirportId" id="endAirport">
+        <option th:each="airport : ${airports}"
+                th:value="${airport.id}"
+                th:selected="${airport.id == schedule.destination.id}"
+                th:text="${airport.name}">
+          Airport Name
+        </option>
+      </select>
+      <div th:if="${bindingResult}">
+        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('destination.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <label for="startTime" class="col-sm-2 col-form-label">Start Time:</label>
       <div class="col-sm-2">
-        <input type="text" class="form-control" id="seatNo" th:field="*{seatNo}">
+        <input type="text" class="form-control" id="startTime" name="startTime" th:value="${schedule.startTime}">
         <div th:if="${bindingResult}">
-          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('seatNo')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('startTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
         </div>
       </div>
     </div>
     <div class="row mb-2">
-      <label for="activity" class="col-sm-2 col-form-label">Country:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="airlineId" id="activity">
-        <option th:each="airline : ${airlines}"
-                th:value="${airline.id}"
-                th:selected="${airline.id == seat.airlineId}"
-                th:text="${airline.title}">
-          Airline name
-        </option>
-      </select>
-      <div th:if="${bindingResult}">
-        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('airlineId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      <label for="endTime" class="col-sm-2 col-form-label">End Time:</label>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="endTime" name="endTime" th:value="${schedule.endTime}">
+        <div th:if="${bindingResult}">
+          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('endTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+        </div>
       </div>
     </div>
-    <button class="btn btn-primary" type="submit">Create</button>
+    <div class="row mb-2">
+      <label for="status" class="col-sm-2 col-form-label">Status:</label>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="status" name="status" th:value="${schedule.status}">
+        <div th:if="${bindingResult}">
+          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('status')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">Update</button>
+
+    <h4>Reservation Seats</h4>
+    <div th:each="reservation, itemStat : *{schedule.reservationSeats}">
+      <div class="row mb-2">
+        <label for="reservationId" class="col-sm-2 col-form-label">Reservation ID:</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="reservationId" th:name="|reservations[${itemStat.index}].id|" th:value="${reservation.id}" readonly>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="seatId" class="col-sm-2 col-form-label">Seat ID:</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="seatId" th:name="|reservations[${itemStat.index}].seatId|" th:value="${reservation.seat.id}" readonly>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="price" class="col-sm-2 col-form-label">Price:</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="price" th:name="|reservations[${itemStat.index}].price|" th:value="${reservation.price}">
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="reservationStatus" class="col-sm-2 col-form-label">Reservation Status:</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="reservationStatus" th:name="|reservations[${itemStat.index}].status|" th:value="${reservation.status}">
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">Update</button>
+  </form>
+  <form th:action="@{/schedules/{scheduleId}/delete(scheduleId=${schedule.id})}" method="post">
+    <button class="btn btn-outline-danger mt-2" type="submit">Remove</button>
   </form>
 </div>
 </body>

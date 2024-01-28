@@ -68,7 +68,7 @@ create table schedule
 );
 
 --changeset artem:8
-create table users
+create table customer
 (
     id    BIGSERIAL PRIMARY KEY,
     email varchar(128),
@@ -76,13 +76,29 @@ create table users
 );
 
 --changeset artem:9
-create table schedule_seat
+create table reservation_seat
 (
     id          BIGSERIAL PRIMARY KEY,
     schedule_id bigint references schedule,
     seat_id     bigint references seat,
-    user_id     bigint references users,
+    customer_id bigint references customer,
     status      varchar(64),
     price       int,
     unique (schedule_id, seat_id)
+);
+
+--changeset artem:10
+CREATE TABLE shopping_cart
+(
+    id          BIGSERIAL PRIMARY KEY,
+    customer_id BIGINT REFERENCES customer,
+    UNIQUE (id, customer_id)
+);
+
+--changeset artem:11
+CREATE TABLE shopping_cart_item
+(
+    id                  BIGSERIAL PRIMARY KEY,
+    shopping_cart_id    BIGINT REFERENCES reservation_seat ON DELETE CASCADE,
+    reservation_seat_id BIGINT REFERENCES reservation_seat ON DELETE CASCADE
 );

@@ -8,6 +8,7 @@
     <title>Schedule Details</title>
 </head>
 <body>
+<div layout:fragment="content">
 <h4>Schedule Details</h4>
 
 <div class="row mb-5">
@@ -57,21 +58,33 @@
 <!-- Add a form or link for updating or deleting the schedule -->
 <h3>Seats</h3>
 
+    <form th:action="@{/schedules/{scheduleId}/delete(scheduleId=${schedule.id})}" method="post">
+        <button class="btn btn-outline-danger mt-2" type="submit">Remove</button>
+    </form>
+
 <div th:each="reservationSeat : ${schedule.reservationSeats}">
     <div class="row">
         <div class="mb-4">
             <label for="numberNo" class="col-sm-2 col-form-label">NumberNO:</label>
             <div class="col-sm-2">
                 <input type="text" class="form-control" id="numberNo"
-                       th:placeholder="${reservationSeat.}"
+                       th:placeholder="${reservationSeat.seat.numberNo}"
                        disabled>
             </div>
         </div>
-        <div class="mb-5">
+        <div class="mb-4">
             <label for="rank" class="col-sm-2 col-form-label">Rank:</label>
             <div class="col-sm-2">
                 <input type="text" class="form-control" id="rank"
-                       th:placeholder="${reservationSeat.rank}"
+                       th:placeholder="${reservationSeat.seat.rank}"
+                       disabled>
+            </div>
+        </div>
+        <div class="mb-4" th:if="${true}">
+            <label for="price" class="col-sm-2 col-form-label">Price:</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="price"
+                       th:placeholder="${reservationSeat.price}"
                        disabled>
             </div>
         </div>
@@ -79,10 +92,10 @@
         <!-- Add Make Reservation button -->
         <div class="mb-3">
             <div class="col-sm-2">
-                <button class="btn btn-primary" th:onclick="'makeReservation(' + ${reservationSeat.id} + ')'" >
+                <button th:if="${true}" class="btn btn-primary" th:onclick="'makeReservation(' + ${reservationSeat.seat.id} + ')'" >
                     Make Reservation
                 </button>
-                <span th:if="${seatStat}" class="text-muted">Reserved</span>
+                <span th:if="${true}" class="text-muted">Reserved</span>
             </div>
         </div>
     </div>
@@ -98,5 +111,6 @@
         alert('Reservation for seat ' + seatId + ' is successful!');
     }
 </script>
+</div>
 </body>
 </html>

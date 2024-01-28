@@ -2,6 +2,7 @@ package org.artem.flight.system.mapper.schedule;
 
 import lombok.AllArgsConstructor;
 import org.artem.flight.system.database.entity.Airport;
+import org.artem.flight.system.database.entity.ReservationSeat;
 import org.artem.flight.system.database.entity.Schedule;
 import org.artem.flight.system.dto.AirportReadDto;
 import org.artem.flight.system.dto.FlightReadDto;
@@ -29,9 +30,10 @@ public class ScheduleReadMapper implements Mapper<Schedule, ScheduleReadDto> {
         var flight = getFlight(object);
         var startAirport = getAirport(object.getStart());
         var endAirport = getAirport(object.getDestination());
-        var reservationSeats = getReservationSeats(object);
+        var reservationSeats = getReservationSeats(object.getReservationSeats());
 
         return ScheduleReadDto.builder()
+                .id(object.getId())
                 .flight(flight)
                 .start(startAirport)
                 .destination(endAirport)
@@ -42,8 +44,8 @@ public class ScheduleReadMapper implements Mapper<Schedule, ScheduleReadDto> {
                 .build();
     }
 
-    private List<ReservationSeatReadDto> getReservationSeats(Schedule object) {
-        return object.getReservationSeats().stream().map(reservationSeatReadMapper::map).toList();
+    private List<ReservationSeatReadDto> getReservationSeats(List<ReservationSeat> reservationSeats) {
+        return reservationSeats.stream().map(reservationSeatReadMapper::map).toList();
     }
 
     private AirportReadDto getAirport(Airport object) {

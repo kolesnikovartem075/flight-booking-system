@@ -1,28 +1,22 @@
 package org.artem.flight.system.database.entity;
 
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "reservation_seat")
-public class ReservationSeat implements BaseEntity<Long> {
-
+@Entity
+@Table(name = "customer")
+public class Customer implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Seat seat;
-
-    private Integer price;
-    private String status;
-
-    @ManyToOne
-    private Schedule schedule;
+    private String email;
 }

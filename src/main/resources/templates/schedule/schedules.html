@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Airports</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Flights</h4>
+    <table class="table table-hover table-light table-sm">
+        <caption>List of flights</caption>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Airline</th>
+            <th scope="col">Flight Number</th>
+            <th scope="col">Seat Capacity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="flight : ${flights}">
+            <th scope="row" th:text="${flight.id}"></th>
+            <td th:text="${flight.airline.title}"></td>
+            <td th:text="${flight.flightNo}"></td>
+            <td th:text="${flight.seatCapacity}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary p-lg" th:href="@{/schedules/create}" role="button">Create flight</a>
+</div>
+</body>
+</html>

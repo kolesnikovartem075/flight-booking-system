@@ -3,6 +3,8 @@ package org.artem.flight.system.dto;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Value
 public class ScheduleCreateEditDto {
@@ -14,4 +16,6 @@ public class ScheduleCreateEditDto {
     LocalDateTime startTime;
     LocalDateTime endTime;
     String status;
+    List<ReservationSeatCreateEditDto> reservations = new ArrayList<>();
+    ;
 }

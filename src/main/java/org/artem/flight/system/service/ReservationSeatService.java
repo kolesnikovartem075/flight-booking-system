@@ -1,7 +1,11 @@
 package org.artem.flight.system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.entity.ReservationSeat;
+import org.artem.flight.system.database.entity.Schedule;
+import org.artem.flight.system.database.entity.Seat;
 import org.artem.flight.system.database.repository.ReservationSeatRepository;
+import org.artem.flight.system.database.repository.ScheduleRepository;
 import org.artem.flight.system.dto.ReservationSeatCreateEditDto;
 import org.artem.flight.system.dto.ReservationSeatReadDto;
 import org.artem.flight.system.mapper.reservation.ReservationSeatCreateEditMapper;
@@ -11,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +26,7 @@ public class ReservationSeatService {
     private final ReservationSeatRepository reservationRepository;
     private final ReservationSeatReadMapper reservationReadMapper;
     private final ReservationSeatCreateEditMapper reservationCreateEditMapper;
+    private final ScheduleRepository scheduleRepository;
 
     public List<ReservationSeatReadDto> findAll() {
         return reservationRepository.findAll().stream()
@@ -33,12 +40,19 @@ public class ReservationSeatService {
     }
 
     @Transactional
-    public ReservationSeatReadDto create(ReservationSeatCreateEditDto reservationDto) {
-        return Optional.of(reservationDto)
+    public List<ReservationSeatReadDto> create(ReservationSeatCreateEditDto reservationDto) {
+        var schedule = scheduleRepository.findById(reservationDto.getScheduleId()).orElseThrow();
+        var seats = schedule.getFlight().getSeats();
+        var reservationSeats = getReservedSeatIds(schedule);
+
+
+        return seats.stream()
+                .filter(it -> !reservationSeats.contains(it.getId()))
+                .map(it -> new ReservationSeatCreateEditDto(reservationDto.getScheduleId(), it.getId(), null, null, null))
                 .map(reservationCreateEditMapper::map)
                 .map(reservationRepository::save)
                 .map(reservationReadMapper::map)
-                .orElseThrow();
+                .toList();
     }
 
     @Transactional
@@ -58,5 +72,11 @@ public class ReservationSeatService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    private Set<Long> getReservedSeatIds(Schedule schedule) {
+        return schedule.getReservationSeats().stream()
+                .map(ReservationSeat::getSeat)
+                .map(Seat::getId).collect(Collectors.toSet());
     }
 }

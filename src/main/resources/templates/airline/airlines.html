@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Airlines</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Airlines</h4>
+    <table class="table table-hover table-light table-sm">
+        <caption>List of airlines</caption>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Actions</th>
+<!--            <th scope="col" sec:authorize="hasAuthority('MANAGER')">Actions</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="airline : ${airlines}">
+            <th scope="row" th:text="${airline.id}"></th>
+            <td th:text="${airline.title}"></td>
+            <td>
+                <a class="btn btn-outline-primary p-lg" th:href="@{'/airlines/' + ${airline.id} + '/update'}">Edit</a>
+            </td>
+<!--            <td sec:authorize="hasAuthority('MANAGER')">-->
+<!--                <a class="btn btn-outline-primary p-lg" th:href="@{'/airlines/' + ${airline.id} + '/update'}">Edit</a>-->
+<!--            </td>-->
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary p-lg" th:href="@{/airlines/create}" role="button">Create airline</a>
+</div>
+</body>
+</html>

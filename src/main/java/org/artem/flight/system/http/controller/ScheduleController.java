@@ -2,13 +2,8 @@
 package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.artem.flight.system.dto.FlightCreateEditDto;
-import org.artem.flight.system.dto.ScheduleCreateEditDto;
-import org.artem.flight.system.dto.SeatCreateEditDto;
-import org.artem.flight.system.service.AirlineService;
-import org.artem.flight.system.service.FlightService;
-import org.artem.flight.system.service.ScheduleService;
-import org.artem.flight.system.service.SeatService;
+import org.artem.flight.system.dto.*;
+import org.artem.flight.system.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +13,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
-    private final SeatService seatService;
+    private final ReservationSeatService reservationSeatService;
     private final AirlineService airlineService;
+    private final FlightService flightService;
+    private final AirportService airportService;
 
     @GetMapping
     public String findAll(Model model) {
@@ -48,6 +47,8 @@ public class ScheduleController {
                          @ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
         model.addAttribute("schedule", schedule);
         model.addAttribute("airlines", airlineService.findAll());
+        model.addAttribute("flights", flightService.findAll());
+        model.addAttribute("airports", airportService.findAll());
 
         return "schedule/scheduleCreate";
     }
@@ -62,22 +63,9 @@ public class ScheduleController {
             return "redirect:/schedules/create";
         }
 
-        return "redirect:/schedules/" + scheduleService.create(schedule).getId();
-    }
-
-    @PostMapping("/createSeat")
-    public String createSeat(@Validated SeatCreateEditDto seat,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
-        var scheduleId = seat.getFlightId();
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("seat", seat);
-            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-            return "redirect:/schedules/" + scheduleId;
-        }
-
-        seatService.create(seat);
-        return "redirect:/schedules/" + scheduleId;
+        var scheduleReadDto = scheduleService.create(schedule);
+        var reservations = reservationSeatService.create(new ReservationSeatCreateEditDto(scheduleReadDto.getId()));
+        return "redirect:/schedules/" + scheduleReadDto.getId() + "/update";
     }
 
     @GetMapping("{id}/update")
@@ -86,6 +74,8 @@ public class ScheduleController {
                 .map(schedule -> {
                     model.addAttribute("schedule", schedule);
                     model.addAttribute("airlines", airlineService.findAll());
+                    model.addAttribute("flights", flightService.findAll());
+                    model.addAttribute("airports", airportService.findAll());
                     return "schedule/scheduleEdit";
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

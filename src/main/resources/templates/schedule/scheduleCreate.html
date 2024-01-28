@@ -4,37 +4,83 @@
       layout:decorate="~{parts/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Create Flight</title>
+    <title>Create Schedule</title>
 </head>
 <body>
 <div layout:fragment="content">
-<form th:action="@{/flights/createFlight}" method="post" th:object="${flight}">
-    <h4>Create Airport</h4>
-    <div class="row mb-2">
-        <label for="flightNo" class="col-sm-2 col-form-label">Flight NO:</label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control" id="flightNo" th:field="*{flightNo}">
+    <form th:action="@{/schedules/createSchedule}" method="post" th:object="${schedule}">
+        <h4>Create Schedule</h4>
+        <div class="row mb-2">
+            <label for="flight" class="col-sm-2 col-form-label">Flight:</label>
+            <select class="form-select form-select-sm col-sm-2 w-auto" name="flightId" id="flight">
+                <option th:each="flight : ${flights}"
+                        th:value="${flight.id}"
+                        th:selected="${flight.id == schedule.flightId}"
+                        th:text="${flight.flightNo}">
+                    Flight Number
+                </option>
+            </select>
             <div th:if="${bindingResult}">
-                <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('flightNo')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+                <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('flight.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
             </div>
         </div>
-    </div>
-    <div class="row mb-2">
-        <label for="activity" class="col-sm-2 col-form-label">Country:</label>
-        <select class="form-select form-select-sm col-sm-2 w-auto" name="airlineId" id="activity">
-            <option th:each="airline : ${airlines}"
-                    th:value="${airline.id}"
-                    th:selected="${airline.id == flight.airlineId}"
-                    th:text="${airline.title}">
-                Airline name
-            </option>
-        </select>
-        <div th:if="${bindingResult}">
-            <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('airlineId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+        <div class="row mb-2">
+            <label for="startAirportId" class="col-sm-2 col-form-label">Start Airport:</label>
+            <select class="form-select form-select-sm col-sm-2 w-auto" name="startAirportId" id="startAirportId">
+                <option th:each="airport : ${airports}"
+                        th:value="${airport.id}"
+                        th:selected="${airport.id == schedule.startAirportId}"
+                        th:text="${airport.name}">
+                    Airport Name
+                </option>
+            </select>
+            <div th:if="${bindingResult}">
+                <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('start.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+            </div>
         </div>
-    </div>
-    <button class="btn btn-primary" type="submit">Create</button>
-</form>
+        <div class="row mb-2">
+            <label for="endAirportId" class="col-sm-2 col-form-label">Destination Airport:</label>
+            <select class="form-select form-select-sm col-sm-2 w-auto" name="endAirportId" id="endAirportId">
+                <option th:each="airport : ${airports}"
+                        th:value="${airport.id}"
+                        th:selected="${airport.id == schedule.endAirportId}"
+                        th:text="${airport.name}">
+                    Airport Name
+                </option>
+            </select>
+            <div th:if="${bindingResult}">
+                <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('destination.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <label for="startTime" class="col-sm-2 col-form-label">Start Time:</label>
+            <div class="col-sm-2">
+                <input type="datetime-local" class="form-control" id="startTime" th:field="*{startTime}">
+                <div th:if="${bindingResult}">
+                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('startTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <label for="endTime" class="col-sm-2 col-form-label">End Time:</label>
+            <div class="col-sm-2">
+                <input type="datetime-local" class="form-control" id="endTime" th:field="*{endTime}">
+                <div th:if="${bindingResult}">
+                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('endTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <label for="status" class="col-sm-2 col-form-label">Status:</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="status" th:field="*{status}">
+                <div th:if="${bindingResult}">
+                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('status')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Create</button>
+    </form>
 </div>
 </body>
 </html>

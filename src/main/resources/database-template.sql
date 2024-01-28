@@ -34,7 +34,7 @@ create table schedule
 );
 
 
-create table schedule_seat
+create table reservation_seat
 (
     id          bigserial,
     schedule_id bigint references schedule,
@@ -57,4 +57,18 @@ create table address
     id   bigserial,
     name varchar(128)
 
+);
+
+CREATE TABLE shopping_cart
+(
+    id          BIGSERIAL PRIMARY KEY,
+    customer_id BIGINT REFERENCES customer,
+    UNIQUE (id, customer_id)
+);
+
+CREATE TABLE shopping_cart_item
+(
+    id                 BIGSERIAL PRIMARY KEY,
+    shopping_cart_id   BIGINT REFERENCES shopping_cart ON DELETE CASCADE,
+    schedule_seat_id BIGINT REFERENCES schedule_seat ON DELETE CASCADE
 );
