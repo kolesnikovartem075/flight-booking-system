@@ -21,7 +21,7 @@
     </div>
     <div class="row mb-2">
         <label for="activity" class="col-sm-2 col-form-label">Country:</label>
-        <select class="form-select form-select-sm col-sm-2 w-auto" name="airlineId" id="activity">
+        <select class="form-select" name="airlineId" id="activity">
             <option th:each="airline : ${airlines}"
                     th:value="${airline.id}"
                     th:selected="${airline.id == flight.airlineId}"

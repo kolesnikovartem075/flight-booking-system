@@ -16,6 +16,5 @@ public class ScheduleCreateEditDto {
     LocalDateTime startTime;
     LocalDateTime endTime;
     String status;
-    List<ReservationSeatCreateEditDto> reservations = new ArrayList<>();
-    ;
+    List<ReservationSeatEditDto> reservations = new ArrayList<>();
 }

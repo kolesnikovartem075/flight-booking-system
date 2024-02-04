@@ -12,7 +12,8 @@
         <h4>Create Schedule</h4>
         <div class="row mb-2">
             <label for="flight" class="col-sm-2 col-form-label">Flight:</label>
-            <select class="form-select form-select-sm col-sm-2 w-auto" name="flightId" id="flight">
+            <div class="col-sm-2">
+            <select class="form-select" name="flightId" id="flight">
                 <option th:each="flight : ${flights}"
                         th:value="${flight.id}"
                         th:selected="${flight.id == schedule.flightId}"
@@ -20,13 +21,15 @@
                     Flight Number
                 </option>
             </select>
+            </div>
             <div th:if="${bindingResult}">
                 <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('flight.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
             </div>
         </div>
         <div class="row mb-2">
             <label for="startAirportId" class="col-sm-2 col-form-label">Start Airport:</label>
-            <select class="form-select form-select-sm col-sm-2 w-auto" name="startAirportId" id="startAirportId">
+            <div class="col-sm-2">
+            <select class="form-select" name="startAirportId" id="startAirportId">
                 <option th:each="airport : ${airports}"
                         th:value="${airport.id}"
                         th:selected="${airport.id == schedule.startAirportId}"
@@ -34,13 +37,15 @@
                     Airport Name
                 </option>
             </select>
+            </div>
             <div th:if="${bindingResult}">
                 <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('start.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
             </div>
         </div>
         <div class="row mb-2">
             <label for="endAirportId" class="col-sm-2 col-form-label">Destination Airport:</label>
-            <select class="form-select form-select-sm col-sm-2 w-auto" name="endAirportId" id="endAirportId">
+            <div class="col-sm-2">
+            <select class="form-select" name="endAirportId" id="endAirportId">
                 <option th:each="airport : ${airports}"
                         th:value="${airport.id}"
                         th:selected="${airport.id == schedule.endAirportId}"
@@ -48,6 +53,7 @@
                     Airport Name
                 </option>
             </select>
+            </div>
             <div th:if="${bindingResult}">
                 <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('destination.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
             </div>
@@ -72,7 +78,8 @@
         </div>
         <div class="row mb-2">
             <label for="status" class="col-sm-2 col-form-label">Status:</label>
-            <select class="form-select form-select-sm col-sm-2 w-auto" name="status" id="status">
+            <div class="col-sm-2">
+            <select class="form-select" name="status" id="status">
                 <option th:each="status : ${scheduleStatuses}"
                         th:value="${status}"
                         th:selected="${status.name == schedule.status}"
@@ -80,6 +87,7 @@
                     Schedule status
                 </option>
             </select>
+            </div>
         </div>
         <button class="btn btn-primary" type="submit">Create</button>
     </form>

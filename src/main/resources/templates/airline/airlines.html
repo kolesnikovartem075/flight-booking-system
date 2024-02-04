@@ -16,19 +16,13 @@
             <th scope="col">ID</th>
             <th scope="col">Title</th>
             <th scope="col">Actions</th>
-<!--            <th scope="col" sec:authorize="hasAuthority('MANAGER')">Actions</th>-->
         </tr>
         </thead>
         <tbody>
         <tr th:each="airline : ${airlines}">
             <th scope="row" th:text="${airline.id}"></th>
             <td th:text="${airline.title}"></td>
-            <td>
-                <a class="btn btn-outline-primary p-lg" th:href="@{'/airlines/' + ${airline.id} + '/update'}">Edit</a>
-            </td>
-<!--            <td sec:authorize="hasAuthority('MANAGER')">-->
-<!--                <a class="btn btn-outline-primary p-lg" th:href="@{'/airlines/' + ${airline.id} + '/update'}">Edit</a>-->
-<!--            </td>-->
+            <td><a class="btn btn-outline-primary p-lg" th:href="@{'/airlines/' + ${airline.id} + '/update'}">Edit</a></td>
         </tr>
         </tbody>
     </table>

@@ -23,7 +23,8 @@
 
     <div class="row mb-2">
       <label for="activity" class="col-sm-2 col-form-label">Country:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="countryId" id="activity">
+      <div class="col-sm-2">
+      <select class="form-select" name="countryId" id="activity">
         <option th:each="country : ${countries}"
                 th:value="${country.id}"
                 th:selected="${country.id == airport.cityDto.country.id}"
@@ -31,11 +32,12 @@
           Country Name
         </option>
       </select>
+      </div>
       <div th:if="${bindingResult}">
         <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('countryId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
       </div>
     </div>
-    <div class="row mb-5">
+    <div class=" row mb-2">
       <label for="cityName" class="col-sm-2 col-form-label">City:</label>
       <div class="col-sm-2">
         <input type="text" class="form-control" id="cityName" th:value="${airport.cityDto.name}" name="cityName">

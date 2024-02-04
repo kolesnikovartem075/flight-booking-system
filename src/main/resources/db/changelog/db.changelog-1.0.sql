@@ -39,7 +39,7 @@ create table airport
 create table flight
 (
     id            BIGSERIAL PRIMARY KEY,
-    flight_no     varchar(128),
+    flight_no     varchar(128) UNIQUE,
     airport_id    bigint references airport,
     airline_id    bigint references airline,
     seat_capacity int
@@ -50,7 +50,7 @@ create table seat
 (
     id        BIGSERIAL PRIMARY KEY,
     flight_id bigint references flight,
-    number_no varchar(64),
+    number_no varchar(64)  UNIQUE,
     rank      varchar(64)
 );
 

@@ -21,7 +21,8 @@
     </div>
     <div class="row mb-2">
       <label for="activity" class="col-sm-2 col-form-label">Country:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="airlineId" id="activity">
+      <div class="col-sm-2">
+      <select class="form-select" name="airlineId" id="activity">
         <option th:each="airline : ${airlines}"
                 th:value="${airline.id}"
                 th:selected="${airline.id == seat.airlineId}"
@@ -29,6 +30,7 @@
           Airline name
         </option>
       </select>
+      </div>
       <div th:if="${bindingResult}">
         <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('airlineId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
       </div>

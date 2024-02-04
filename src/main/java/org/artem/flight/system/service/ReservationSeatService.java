@@ -8,8 +8,10 @@ import org.artem.flight.system.database.entity.Seat;
 import org.artem.flight.system.database.repository.ReservationSeatRepository;
 import org.artem.flight.system.database.repository.ScheduleRepository;
 import org.artem.flight.system.dto.ReservationSeatCreateEditDto;
+import org.artem.flight.system.dto.ReservationSeatEditDto;
 import org.artem.flight.system.dto.ReservationSeatReadDto;
 import org.artem.flight.system.mapper.reservation.ReservationSeatCreateEditMapper;
+import org.artem.flight.system.mapper.reservation.ReservationSeatEditMapper;
 import org.artem.flight.system.mapper.reservation.ReservationSeatReadMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class ReservationSeatService {
     private final ReservationSeatRepository reservationRepository;
     private final ReservationSeatReadMapper reservationReadMapper;
     private final ReservationSeatCreateEditMapper reservationCreateEditMapper;
+    private final ReservationSeatEditMapper reservationSeatEditMapper;
     private final ScheduleRepository scheduleRepository;
 
     public List<ReservationSeatReadDto> findAll() {
@@ -57,9 +60,9 @@ public class ReservationSeatService {
     }
 
     @Transactional
-    public Optional<ReservationSeatReadDto> update(Long id, ReservationSeatCreateEditDto reservationDto) {
+    public Optional<ReservationSeatReadDto> update(Long id, ReservationSeatEditDto reservationDto) {
         return reservationRepository.findById(id)
-                .map(entity -> reservationCreateEditMapper.map(reservationDto, entity))
+                .map(entity -> reservationSeatEditMapper.map(reservationDto, entity))
                 .map(reservationRepository::saveAndFlush)
                 .map(reservationReadMapper::map);
     }

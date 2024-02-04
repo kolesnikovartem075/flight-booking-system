@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+      layout:decorate="~{parts/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Airports</title>
@@ -22,7 +22,9 @@
         <tbody>
         <tr th:each="flight : ${flights}">
             <th scope="row" th:text="${flight.id}"></th>
-            <td th:text="${flight.airline.title}"></td>
+            <td>
+                <a th:href="@{'/airports/' + ${flight.airline.id}}"
+                   th:text="${flight.airline.title}"></a></td>
             <td th:text="${flight.flightNo}"></td>
             <td th:text="${flight.seatCapacity}"></td>
         </tr>

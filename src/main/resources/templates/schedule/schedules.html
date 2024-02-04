@@ -8,27 +8,44 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>Flights</h4>
+    <h4>Schedules</h4>
     <table class="table table-hover table-light table-sm">
-        <caption>List of flights</caption>
+        <caption>List of schedules</caption>
         <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Airline</th>
             <th scope="col">Flight Number</th>
-            <th scope="col">Seat Capacity</th>
+            <th scope="col">Start airport</th>
+            <th scope="col">Destination airport</th>
+            <th scope="col">Start time</th>
+            <th scope="col">End time</th>
+            <th scope="col">Status</th>
+            <th scope="col">Details</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="flight : ${flights}">
-            <th scope="row" th:text="${flight.id}"></th>
-            <td th:text="${flight.airline.title}"></td>
-            <td th:text="${flight.flightNo}"></td>
-            <td th:text="${flight.seatCapacity}"></td>
+        <tr th:each="schedule : ${schedules}">
+            <th scope="row" th:text="${schedule.id}"></th>
+            <td >
+                <a th:href="@{'/flights/' + ${schedule.flight.id}}"
+                   th:text="${schedule.flight.flightNo}"></a>
+            </td>
+            <td>
+                <a th:href="@{'/airports/' + ${schedule.start.id}}"
+                   th:text="${schedule.start.name}"></a>
+            </td>
+            <td th:text="${schedule.destination.name}">
+                <a th:href="@{'/airports/' + ${schedule.destination.id}}"
+                   th:text="${schedule.destination.name}"></a>
+            </td>
+            <td th:text="${schedule.startTime}"></td>
+            <td th:text="${schedule.endTime}"></td>
+            <td th:text="${schedule.status}"></td>
+            <td> <a class="btn btn-outline-primary p-lg" th:href="@{'/schedules/' + ${schedule.id}}">Details</a></td>
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary p-lg" th:href="@{/schedules/create}" role="button">Create flight</a>
+    <a class="btn btn-primary p-lg" th:href="@{/schedules/create}" role="button">Create schedule</a>
 </div>
 </body>
 </html>

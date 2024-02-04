@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="content">
     <h4>Flight</h4>
-    <div class="row mb-5">
+    <div class=" row mb-2">
         <label for="flightNo" class="col-sm-2 col-form-label">Flight Number:</label>
         <div class="col-sm-2">
             <input type="text" class="form-control" id="flightNo"
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div th:with="airline=${flight.airline}">
-        <div class="row mb-5">
+        <div class=" row mb-2">
             <label for="cityName" class="col-sm-2 col-form-label">Airline:</label>
             <div class="col-sm-2">
                 <input type="text" class="form-control" id="cityName"
@@ -70,13 +70,15 @@
         </div>
         <div class="row mb-2">
             <label for="rank" class="col-sm-2 col-form-label">Rank:</label>
-            <select class="form-select form-select-sm col-sm-2 w-auto" name="rank" id="rank">
+            <div class="col-sm-2">
+            <select class="form-select" name="rank" id="rank">
                 <option th:each="rank : ${seatRanks}"
                         th:value="${rank}"
                         th:text="${rank.name}">
                     Seat rank
                 </option>
             </select>
+            </div>
         </div>
         <button class="btn btn-primary" type="submit">Add seat</button>
     </form>

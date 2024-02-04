@@ -12,21 +12,20 @@
     <h4>Edit Schedule</h4>
     <div class="row mb-2">
       <label for="flight" class="col-sm-2 col-form-label">Flight:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="flightId" id="flight">
-        <option th:each="flight : ${flights}"
-                th:value="${flight.id}"
-                th:selected="${flight.id == schedule.flight.id}"
-                th:text="${flight.flightNo}">
-          Flight Number
-        </option>
-      </select>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="flight" th:placeholder="${schedule.flight.flightNo}" disabled>
+            <div th:if="${bindingResult}">
+                <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('flightId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+            </div>
+        </div>
       <div th:if="${bindingResult}">
         <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('flight.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
       </div>
     </div>
     <div class="row mb-2">
       <label for="startAirport" class="col-sm-2 col-form-label">Start Airport:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="startAirportId" id="startAirport">
+      <div class="col-sm-2">
+      <select class="form-select" name="startAirportId" id="startAirport">
         <option th:each="airport : ${airports}"
                 th:value="${airport.id}"
                 th:selected="${airport.id == schedule.start.id}"
@@ -34,13 +33,15 @@
           Airport Name
         </option>
       </select>
+      </div>
       <div th:if="${bindingResult}">
         <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('start.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
       </div>
     </div>
     <div class="row mb-2">
       <label for="endAirport" class="col-sm-2 col-form-label">Destination Airport:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="endAirportId" id="endAirport">
+      <div class="col-sm-2">
+      <select class="form-select" name="endAirportId" id="endAirport">
         <option th:each="airport : ${airports}"
                 th:value="${airport.id}"
                 th:selected="${airport.id == schedule.destination.id}"
@@ -48,6 +49,7 @@
           Airport Name
         </option>
       </select>
+      </div>
       <div th:if="${bindingResult}">
         <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('destination.id')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
       </div>
@@ -55,7 +57,7 @@
     <div class="row mb-2">
       <label for="startTime" class="col-sm-2 col-form-label">Start Time:</label>
       <div class="col-sm-2">
-        <input type="text" class="form-control" id="startTime" name="startTime" th:value="${schedule.startTime}">
+        <input type="datetime-local" class="form-control col-sm-3 w-auto" id="startTime" name="startTime" th:value="${schedule.startTime}">
         <div th:if="${bindingResult}">
           <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('startTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
         </div>
@@ -64,7 +66,7 @@
     <div class="row mb-2">
       <label for="endTime" class="col-sm-2 col-form-label">End Time:</label>
       <div class="col-sm-2">
-        <input type="text" class="form-control" id="endTime" name="endTime" th:value="${schedule.endTime}">
+        <input type="datetime-local" class="form-control col-sm-3 w-auto" id="endTime" name="endTime" th:value="${schedule.endTime}">
         <div th:if="${bindingResult}">
           <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('endTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
         </div>
@@ -72,16 +74,22 @@
     </div>
     <div class="row mb-2">
       <label for="status" class="col-sm-2 col-form-label">Status:</label>
-      <select class="form-select form-select-sm col-sm-2 w-auto" name="status" id="status">
-        <option th:each="status : ${scheduleStatuses}"
-                th:value="${status.name}"
-                th:selected="${status.name == schedule.status}"
-                th:text="${schedule.status}">
-          Schedule status
-        </option>
-      </select>
+      <div class="col-sm-2">
+        <select class="form-select" name="status" id="status">
+          <option th:each="status : ${scheduleStatuses}"
+                  th:value="${status.name()}"
+                  th:if="${schedule.status}"
+                  th:selected="${schedule.status.equals(status.name())}"
+                  th:text="${status.name()}">
+            Schedule status
+          </option>
+        </select>
+      </div>
     </div>
-    <button class="btn btn-primary mt-2" type="submit">Update</button>
+      <label>
+          <input name="flightId" th:value="${schedule.flight.id}" hidden="hidden">
+      </label>
+      <button class="btn btn-primary mt-2" type="submit">Update</button>
 
     <!-- Previous code remains unchanged -->
 
@@ -100,18 +108,18 @@
         <div class="row mb-2">
           <label for="reservationId" class="col-sm-2 col-form-label">Reservation ID:</label>
           <div class="col-sm-2">
-            <input type="text" class="form-control" id="reservationId" th:value="${reservation.id}" readonly>
+            <input type="text" class="form-control" id="reservationId" name="id"  th:name="|reservations[${itemStat.index}].id|" th:value="${reservation.id}" readonly>
           </div>
           <label for="seatId" class="col-sm-2 col-form-label">Seat ID:</label>
           <div class="col-sm-2">
-            <input type="text" class="form-control" id="seatId"  th:value="${reservation.seat.id}" readonly>
+            <input type="text" class="form-control" id="seatId" th:name="|reservations[${itemStat.index}].seatId|"  th:value="${reservation.seat.id}" readonly>
           </div>
         </div>
-        <label for="reservationStatus" class="col-sm-2 col-form-label" readonly>Reservation Status:</label>
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="reservationStatus" th:name="|reservations[${itemStat.index}].status|" th:value="${reservation.status}">
-        </div>
         <div class="row mb-2">
+          <label for="reservationStatus" class="col-sm-2 col-form-label">Reservation Status:</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="reservationStatus" th:name="|reservations[${itemStat.index}].status|" th:value="${reservation.status}" readonly>
+          </div>
           <label for="price" class="col-sm-2 col-form-label">Price:</label>
           <div class="col-sm-2">
             <input type="text" class="form-control" id="price" th:name="|reservations[${itemStat.index}].price|" th:value="${reservation.price}">
