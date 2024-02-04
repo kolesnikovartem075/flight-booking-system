@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.artem.flight.system.database.entity.Airline;
 import org.artem.flight.system.database.entity.Flight;
 import org.artem.flight.system.database.entity.Seat;
+import org.artem.flight.system.database.entity.SeatRank;
 import org.artem.flight.system.database.repository.FlightRepository;
 import org.artem.flight.system.dto.SeatCreateEditDto;
 import org.artem.flight.system.mapper.Mapper;
@@ -33,7 +34,7 @@ public class SeatCreateEditMapper implements Mapper<SeatCreateEditDto, Seat> {
 
         toObject.setFlight(flight);
         toObject.setNumberNo(fromObject.getNumberNo());
-        toObject.setRank(fromObject.getRank());
+        toObject.setRank(SeatRank.valueOf(fromObject.getRank()));
     }
 
     private Flight getFlight(SeatCreateEditDto fromObject) {

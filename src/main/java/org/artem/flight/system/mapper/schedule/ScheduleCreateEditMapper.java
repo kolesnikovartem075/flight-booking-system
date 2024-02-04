@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.artem.flight.system.database.entity.Airport;
 import org.artem.flight.system.database.entity.Flight;
 import org.artem.flight.system.database.entity.Schedule;
+import org.artem.flight.system.database.entity.ScheduleStatus;
 import org.artem.flight.system.database.repository.AirportRepository;
 import org.artem.flight.system.database.repository.FlightRepository;
 import org.artem.flight.system.database.repository.ReservationSeatRepository;
@@ -50,7 +51,7 @@ public class ScheduleCreateEditMapper implements Mapper<ScheduleCreateEditDto, S
         toObject.setDestination(endAirport);
         toObject.setStartTime(fromObject.getStartTime());
         toObject.setEndTime(fromObject.getEndTime());
-        toObject.setStatus(fromObject.getStatus());
+        toObject.setStatus(ScheduleStatus.valueOf(fromObject.getStatus()));
     }
 
     private Airport getAirport(Long airportId) {

@@ -17,7 +17,7 @@ public class ReservationSeatReadMapper implements Mapper<ReservationSeat, Reserv
     public ReservationSeatReadDto map(ReservationSeat object) {
         var seat = getSeat(object);
 
-        return new ReservationSeatReadDto(object.getId(), seat, object.getStatus(), object.getPrice());
+        return new ReservationSeatReadDto(object.getId(), seat, object.getStatus().name(), object.getPrice());
     }
 
     private SeatReadDto getSeat(ReservationSeat object) {

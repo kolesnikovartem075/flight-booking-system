@@ -2,6 +2,7 @@
 package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.entity.SeatRank;
 import org.artem.flight.system.dto.FlightCreateEditDto;
 import org.artem.flight.system.dto.SeatCreateEditDto;
 import org.artem.flight.system.service.AirlineService;
@@ -37,6 +38,7 @@ public class FlightController {
         return flightService.findById(id)
                 .map(flight -> {
                     model.addAttribute("flight", flight);
+                    model.addAttribute("seatRanks", SeatRank.values());
                     return "flight/flight";
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -45,6 +47,7 @@ public class FlightController {
     public String create(Model model,
                          @ModelAttribute("flight") FlightCreateEditDto flight) {
         model.addAttribute("flight", flight);
+        model.addAttribute("seatRanks", SeatRank.values());
         model.addAttribute("airlines", airlineService.findAll());
 
         return "flight/flightCreate";

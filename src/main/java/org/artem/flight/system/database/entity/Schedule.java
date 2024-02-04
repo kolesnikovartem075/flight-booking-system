@@ -37,7 +37,8 @@ public class Schedule implements BaseEntity<Long> {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ScheduleStatus status;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "schedule")
     private List<ReservationSeat> reservationSeats;

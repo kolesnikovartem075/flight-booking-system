@@ -2,6 +2,7 @@ package org.artem.flight.system.service;
 
 import lombok.RequiredArgsConstructor;
 import org.artem.flight.system.database.entity.ReservationSeat;
+import org.artem.flight.system.database.entity.ReservationStatus;
 import org.artem.flight.system.database.entity.Schedule;
 import org.artem.flight.system.database.entity.Seat;
 import org.artem.flight.system.database.repository.ReservationSeatRepository;
@@ -48,7 +49,7 @@ public class ReservationSeatService {
 
         return seats.stream()
                 .filter(it -> !reservationSeats.contains(it.getId()))
-                .map(it -> new ReservationSeatCreateEditDto(reservationDto.getScheduleId(), it.getId(), null, null, null))
+                .map(it -> new ReservationSeatCreateEditDto(reservationDto.getScheduleId(), it.getId(), null, null, ReservationStatus.FREE.name()))
                 .map(reservationCreateEditMapper::map)
                 .map(reservationRepository::save)
                 .map(reservationReadMapper::map)

@@ -1,13 +1,13 @@
 package org.artem.flight.system.database.entity;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 import java.util.List;
 
+@ToString(exclude = {"flights"})
+@EqualsAndHashCode(exclude = {"flights"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

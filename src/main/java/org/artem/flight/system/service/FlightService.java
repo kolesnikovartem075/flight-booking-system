@@ -21,7 +21,6 @@ public class FlightService {
     private final FlightRepository flightRepository;
     private final FlightReadMapper flightReadMapper;
     private final FlightCreateEditMapper flightCreateEditMapper;
-    private final SeatService seatService;
 
     public List<FlightReadDto> findAll() {
         return flightRepository.findAll().stream()

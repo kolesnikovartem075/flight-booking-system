@@ -2,7 +2,7 @@ package org.artem.flight.system.mapper.reservation;
 
 import lombok.AllArgsConstructor;
 import org.artem.flight.system.database.entity.ReservationSeat;
-import org.artem.flight.system.database.entity.Schedule;
+import org.artem.flight.system.database.entity.ReservationStatus;
 import org.artem.flight.system.database.entity.Seat;
 import org.artem.flight.system.database.repository.ScheduleRepository;
 import org.artem.flight.system.database.repository.SeatRepository;
@@ -24,7 +24,7 @@ public class ReservationSeatCreateEditMapper implements Mapper<ReservationSeatCr
         var seat = getSeat(object);
         reservationSeat.setSchedule(schedule);
         reservationSeat.setPrice(0);
-        reservationSeat.setStatus("FREE");
+        reservationSeat.setStatus(ReservationStatus.valueOf(object.getStatus()));
         reservationSeat.setSeat(seat);
 
         return reservationSeat;
@@ -39,7 +39,7 @@ public class ReservationSeatCreateEditMapper implements Mapper<ReservationSeatCr
         var seat = getSeat(fromObject);
 
         toObject.setPrice(fromObject.getPrice());
-        toObject.setStatus(fromObject.getStatus());
+        toObject.setStatus(ReservationStatus.valueOf(fromObject.getStatus()));
         toObject.setSeat(seat);
     }
 

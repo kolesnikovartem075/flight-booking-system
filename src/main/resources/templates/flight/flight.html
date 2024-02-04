@@ -69,13 +69,14 @@
             </div>
         </div>
         <div class="row mb-2">
-            <label for="rank" class="col-sm-2 col-form-label">Rank: </label>
-            <div class="col-sm-2">
-                <input type="text" id="rank" class="form-control" name="rank">
-                <div th:if="${bindingResult}">
-                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('rank')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
-                </div>
-            </div>
+            <label for="rank" class="col-sm-2 col-form-label">Rank:</label>
+            <select class="form-select form-select-sm col-sm-2 w-auto" name="rank" id="rank">
+                <option th:each="rank : ${seatRanks}"
+                        th:value="${rank}"
+                        th:text="${rank.name}">
+                    Seat rank
+                </option>
+            </select>
         </div>
         <button class="btn btn-primary" type="submit">Add seat</button>
     </form>

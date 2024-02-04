@@ -21,5 +21,7 @@ public class Seat implements BaseEntity<Long> {
     private Flight flight;
 
     private String numberNo;
-    private String rank;
+
+    @Enumerated(EnumType.STRING)
+    private SeatRank rank;
 }

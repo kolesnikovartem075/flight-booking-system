@@ -4,7 +4,7 @@
       layout:decorate="~{parts/layout}">
 <head>
   <meta charset="UTF-8">
-  <title>Create Seat</title>
+  <title>Edit Schedule</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -72,43 +72,58 @@
     </div>
     <div class="row mb-2">
       <label for="status" class="col-sm-2 col-form-label">Status:</label>
-      <div class="col-sm-2">
-        <input type="text" class="form-control" id="status" name="status" th:value="${schedule.status}">
-        <div th:if="${bindingResult}">
-          <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('status')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
+      <select class="form-select form-select-sm col-sm-2 w-auto" name="status" id="status">
+        <option th:each="status : ${scheduleStatuses}"
+                th:value="${status.name}"
+                th:selected="${status.name == schedule.status}"
+                th:text="${schedule.status}">
+          Schedule status
+        </option>
+      </select>
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">Update</button>
+
+    <!-- Previous code remains unchanged -->
+
+    <h4>Reservation Seats</h4>
+    <div th:each="reservation, itemStat : *{schedule.reservationSeats}">
+      <div class="border mb-3 p-3">
+        <div class="row mb-2">
+          <label class="col-sm-2 col-form-label">Seat Info:</label>
+          <div class="col-sm-2">
+            <span th:text="${'Seat Number: ' + reservation.seat.numberNo}"></span>
+          </div>
+          <div class="col-sm-2">
+            <span th:text="${'Seat Rank: ' + reservation.seat.rank}"></span>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <label for="reservationId" class="col-sm-2 col-form-label">Reservation ID:</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="reservationId" th:value="${reservation.id}" readonly>
+          </div>
+          <label for="seatId" class="col-sm-2 col-form-label">Seat ID:</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="seatId"  th:value="${reservation.seat.id}" readonly>
+          </div>
+        </div>
+        <label for="reservationStatus" class="col-sm-2 col-form-label" readonly>Reservation Status:</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="reservationStatus" th:name="|reservations[${itemStat.index}].status|" th:value="${reservation.status}">
+        </div>
+        <div class="row mb-2">
+          <label for="price" class="col-sm-2 col-form-label">Price:</label>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" id="price" th:name="|reservations[${itemStat.index}].price|" th:value="${reservation.price}">
+          </div>
         </div>
       </div>
     </div>
     <button class="btn btn-primary mt-2" type="submit">Update</button>
 
-    <h4>Reservation Seats</h4>
-    <div th:each="reservation, itemStat : *{schedule.reservationSeats}">
-      <div class="row mb-2">
-        <label for="reservationId" class="col-sm-2 col-form-label">Reservation ID:</label>
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="reservationId" th:name="|reservations[${itemStat.index}].id|" th:value="${reservation.id}" readonly>
-        </div>
-      </div>
-      <div class="row mb-2">
-        <label for="seatId" class="col-sm-2 col-form-label">Seat ID:</label>
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="seatId" th:name="|reservations[${itemStat.index}].seatId|" th:value="${reservation.seat.id}" readonly>
-        </div>
-      </div>
-      <div class="row mb-2">
-        <label for="price" class="col-sm-2 col-form-label">Price:</label>
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="price" th:name="|reservations[${itemStat.index}].price|" th:value="${reservation.price}">
-        </div>
-      </div>
-      <div class="row mb-2">
-        <label for="reservationStatus" class="col-sm-2 col-form-label">Reservation Status:</label>
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="reservationStatus" th:name="|reservations[${itemStat.index}].status|" th:value="${reservation.status}">
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-primary mt-2" type="submit">Update</button>
+    <!-- Remaining code unchanged -->
+
+
   </form>
   <form th:action="@{/schedules/{scheduleId}/delete(scheduleId=${schedule.id})}" method="post">
     <button class="btn btn-outline-danger mt-2" type="submit">Remove</button>

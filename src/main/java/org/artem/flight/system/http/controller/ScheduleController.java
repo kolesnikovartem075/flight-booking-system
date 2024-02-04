@@ -2,6 +2,8 @@
 package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.entity.ReservationStatus;
+import org.artem.flight.system.database.entity.ScheduleStatus;
 import org.artem.flight.system.dto.*;
 import org.artem.flight.system.service.*;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,7 @@ public class ScheduleController {
     public String create(Model model,
                          @ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
         model.addAttribute("schedule", schedule);
+        model.addAttribute("scheduleStatuses", ScheduleStatus.values());
         model.addAttribute("airlines", airlineService.findAll());
         model.addAttribute("flights", flightService.findAll());
         model.addAttribute("airports", airportService.findAll());
@@ -73,6 +76,7 @@ public class ScheduleController {
         return scheduleService.findById(id)
                 .map(schedule -> {
                     model.addAttribute("schedule", schedule);
+                    model.addAttribute("scheduleStatuses", ScheduleStatus.values());
                     model.addAttribute("airlines", airlineService.findAll());
                     model.addAttribute("flights", flightService.findAll());
                     model.addAttribute("airports", airportService.findAll());

@@ -72,12 +72,14 @@
         </div>
         <div class="row mb-2">
             <label for="status" class="col-sm-2 col-form-label">Status:</label>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" id="status" th:field="*{status}">
-                <div th:if="${bindingResult}">
-                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('status')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
-                </div>
-            </div>
+            <select class="form-select form-select-sm col-sm-2 w-auto" name="status" id="status">
+                <option th:each="status : ${scheduleStatuses}"
+                        th:value="${status}"
+                        th:selected="${status.name == schedule.status}"
+                        th:text="${status.name}">
+                    Schedule status
+                </option>
+            </select>
         </div>
         <button class="btn btn-primary" type="submit">Create</button>
     </form>

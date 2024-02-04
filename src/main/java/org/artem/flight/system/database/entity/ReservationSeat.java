@@ -21,7 +21,9 @@ public class ReservationSeat implements BaseEntity<Long> {
     private Seat seat;
 
     private Integer price;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
 
     @ManyToOne
     private Schedule schedule;

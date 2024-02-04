@@ -14,7 +14,9 @@ import org.artem.flight.system.mapper.flight.FlightReadMapper;
 import org.artem.flight.system.mapper.reservation.ReservationSeatReadMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Component
@@ -39,13 +41,14 @@ public class ScheduleReadMapper implements Mapper<Schedule, ScheduleReadDto> {
                 .destination(endAirport)
                 .startTime(object.getStartTime())
                 .endTime(object.getEndTime())
-                .status(object.getStatus())
+                .status(object.getStatus().name())
                 .reservationSeats(reservationSeats)
                 .build();
     }
 
     private List<ReservationSeatReadDto> getReservationSeats(List<ReservationSeat> reservationSeats) {
-        return reservationSeats.stream().map(reservationSeatReadMapper::map).toList();
+        return Optional.ofNullable(reservationSeats).orElse(Collections.emptyList())
+                .stream().map(reservationSeatReadMapper::map).toList();
     }
 
     private AirportReadDto getAirport(Airport object) {
