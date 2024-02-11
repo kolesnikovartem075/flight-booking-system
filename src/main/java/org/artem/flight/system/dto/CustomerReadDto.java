@@ -3,7 +3,8 @@ package org.artem.flight.system.dto;
 import lombok.Value;
 
 @Value
-public class ShoppingCartCreateEditDto {
+public class CustomerReadDto {
 
-    String sessionId;
+    Long id;
+    String email;
 }

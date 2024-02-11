@@ -9,113 +9,111 @@
 </head>
 <body>
 <div layout:fragment="content">
-<h4>Schedule Details</h4>
+    <h4>Schedule Details</h4>
 
-<div class=" row mb-2">
-    <label for="flightNo" class="col-sm-2 col-form-label">Flight Number:</label>
-    <div class="col-sm-2">
-        <input type="text" class="form-control" id="flightNo" th:placeholder="${schedule.flight.flightNo}" disabled>
+    <div class=" row mb-2">
+        <label for="flightNo" class="col-sm-2 col-form-label">Flight Number:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="flightNo" th:placeholder="${schedule.flight.flightNo}" disabled>
+        </div>
     </div>
-</div>
 
-<div class=" row mb-2">
-    <label for="startAirport" class="col-sm-2 col-form-label">Start Airport:</label>
-    <div class="col-sm-2">
-        <input type="text" class="form-control" id="startAirport" th:placeholder="${schedule.start.name}" disabled>
+    <div class=" row mb-2">
+        <label for="startAirport" class="col-sm-2 col-form-label">Start Airport:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="startAirport" th:placeholder="${schedule.start.name}" disabled>
+        </div>
     </div>
-</div>
 
-<div class=" row mb-2">
-    <label for="destinationAirport" class="col-sm-2 col-form-label">Destination Airport:</label>
-    <div class="col-sm-2">
-        <input type="text" class="form-control" id="destinationAirport" th:placeholder="${schedule.destination.name}" disabled>
+    <div class=" row mb-2">
+        <label for="destinationAirport" class="col-sm-2 col-form-label">Destination Airport:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="destinationAirport"
+                   th:placeholder="${schedule.destination.name}" disabled>
+        </div>
     </div>
-</div>
 
-<div class=" row mb-2">
-    <label for="startTime" class="col-sm-2 col-form-label">Start Time:</label>
-    <div class="col-sm-2">
-        <input type="text" class="form-control" id="startTime" th:placeholder="${schedule.startTime}" disabled>
+    <div class=" row mb-2">
+        <label for="startTime" class="col-sm-2 col-form-label">Start Time:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="startTime" th:placeholder="${schedule.startTime}" disabled>
+        </div>
     </div>
-</div>
 
-<div class=" row mb-2">
-    <label for="endTime" class="col-sm-2 col-form-label">End Time:</label>
-    <div class="col-sm-2">
-        <input type="text" class="form-control" id="endTime" th:placeholder="${schedule.endTime}" disabled>
+    <div class=" row mb-2">
+        <label for="endTime" class="col-sm-2 col-form-label">End Time:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="endTime" th:placeholder="${schedule.endTime}" disabled>
+        </div>
     </div>
-</div>
 
-<div class=" row mb-2">
-    <label for="status" class="col-sm-2 col-form-label">Status:</label>
-    <div class="col-sm-2">
-        <input type="text" class="form-control" id="status" th:placeholder="${schedule.status}" disabled>
+    <div class=" row mb-2">
+        <label for="status" class="col-sm-2 col-form-label">Status:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="status" th:placeholder="${schedule.status}" disabled>
+        </div>
     </div>
-</div>
-<div class="btn-group mt-2 mb-2">
-    <a class="btn btn-primary p-lg"
-       th:href="@{/schedules/{scheduleId}/update(scheduleId=${schedule.id})}"
-       role="button">Update schedule</a>
-    <form th:action="@{/schedules/{scheduleId}/delete(scheduleId=${schedule.id})}" method="post">
-        <button type="submit" class="btn btn-primary btn-danger ms-3">Remove</button>
-    </form>
-</div>
+    <div class="btn-group mt-2 mb-2">
+        <a class="btn btn-primary p-lg"
+           th:href="@{/schedules/{scheduleId}/update(scheduleId=${schedule.id})}"
+           role="button">Update schedule</a>
+        <form th:action="@{/schedules/{scheduleId}/delete(scheduleId=${schedule.id})}" method="post">
+            <button type="submit" class="btn btn-primary btn-danger ms-3">Remove</button>
+        </form>
+    </div>
 
-<!-- Add a section for reservation seats if needed -->
+    <!-- Add a section for reservation seats if needed -->
 
-<!-- Add a form or link for updating or deleting the schedule -->
+    <!-- Add a form or link for updating or deleting the schedule -->
     <h3>Seats</h3>
-<div class="row">
-    <div th:each="reservationSeat : ${schedule.reservationSeats}" class=" col-sm-3">
-        <div class="border mb-3 p-3">
-            <div class="row mb-2">
-                <label for="numberNo" class="col-sm-4 col-form-label">NumberNO:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="numberNo"
-                           th:placeholder="${reservationSeat.seat.numberNo}"
-                           disabled>
+    <div class="row">
+        <div th:each="reservationSeat : ${schedule.reservationSeats}" class=" col-sm-3">
+            <div class="border mb-3 p-3">
+                <div class="row mb-2">
+                    <label for="numberNo" class="col-sm-4 col-form-label">NumberNO:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="numberNo"
+                               th:placeholder="${reservationSeat.seat.numberNo}"
+                               disabled>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-2">
-                <label for="rank" class="col-sm-4 col-form-label">Rank:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="rank"
-                           th:placeholder="${reservationSeat.seat.rank}"
-                           disabled>
+                <div class="row mb-2">
+                    <label for="rank" class="col-sm-4 col-form-label">Rank:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="rank"
+                               th:placeholder="${reservationSeat.seat.rank}"
+                               disabled>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-2" th:if="${true}">
-                <label for="price" class="col-sm-4 col-form-label">Price:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="price"
-                           th:placeholder="${reservationSeat.price}"
-                           disabled>
+                <div class="row mb-2" th:if="${true}">
+                    <label for="price" class="col-sm-4 col-form-label">Price:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="price"
+                               th:placeholder="${reservationSeat.price}"
+                               disabled>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Add Make Reservation button -->
-            <div class="row mb-3">
-                <div class="col-sm-12">
-                    <button th:if="${true}" class="btn btn-primary" th:onclick="'makeReservation(' + ${reservationSeat.seat.id} + ')'" >
-                        Make Reservation
-                    </button>
-                    <span th:if="${true}" class="text-muted">Reserved</span>
+                <!-- Add Make Reservation button -->
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <a th:if="${reservationSeat.status.equals('FREE')}" th:href="@{/shopping-cart/{reservationSeatId}/put(reservationSeatId=${reservationSeat.id})}" class="card-link">Make Reservation</a>
+                        <span th:if="!${reservationSeat.status.equals('FREE')}"  class="text-muted">Reserved</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ... (remaining code) ... -->
+    <!-- ... (remaining code) ... -->
 
-<script th:inline="javascript">
-    /* Add JavaScript function to handle reservation logic */
-    function makeReservation(seatId) {
-        // Implement logic to make a reservation using seatId
-        // You can use AJAX to send a request to the server to handle the reservation
-        alert('Reservation for seat ' + seatId + ' is successful!');
-    }
-</script>
+    <script th:inline="javascript">
+        /* Add JavaScript function to handle reservation logic */
+        function makeReservation(seatId) {
+
+            alert('Reservation for seat ' + seatId + ' is successful!');
+        }
+    </script>
 </div>
 </body>
 </html>

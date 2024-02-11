@@ -23,20 +23,9 @@ public class ShoppingCartItemCreateEditMapper implements Mapper<ShoppingCartItem
         ReservationSeat reservationSeat = getReservationSeat(object);
         shoppingCartItem.setShoppingCart(shoppingCart);
         shoppingCartItem.setReservationSeat(reservationSeat);
-        copy(object, shoppingCartItem);
 
         return shoppingCartItem;
     }
-
-    @Override
-    public ShoppingCartItem map(ShoppingCartItemCreateEditDto fromObject, ShoppingCartItem toObject) {
-        copy(fromObject, toObject);
-        return toObject;
-    }
-
-    private void copy(ShoppingCartItemCreateEditDto object, ShoppingCartItem shoppingCartItem) {
-    }
-
 
     private ReservationSeat getReservationSeat(ShoppingCartItemCreateEditDto shoppingCartItemDto) {
         return reservationSeatRepository.findById(shoppingCartItemDto.getReservationSeatId())

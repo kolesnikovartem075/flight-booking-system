@@ -18,8 +18,7 @@ public class ShoppingCart implements BaseEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Customer customer;
+    private String sessionId;
 
     @OneToMany(mappedBy = "shoppingCart")
     private List<ShoppingCartItem> items;

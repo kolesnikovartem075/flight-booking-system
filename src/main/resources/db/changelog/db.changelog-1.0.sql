@@ -50,7 +50,7 @@ create table seat
 (
     id        BIGSERIAL PRIMARY KEY,
     flight_id bigint references flight,
-    number_no varchar(64)  UNIQUE,
+    number_no varchar(64) UNIQUE,
     rank      varchar(64)
 );
 
@@ -90,15 +90,45 @@ create table reservation_seat
 --changeset artem:10
 CREATE TABLE shopping_cart
 (
-    id          BIGSERIAL PRIMARY KEY,
-    customer_id BIGINT REFERENCES customer,
-    UNIQUE (id, customer_id)
+    id           BIGSERIAL PRIMARY KEY,
+    session_id   VARCHAR(32),
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (id, session_id)
 );
 
 --changeset artem:11
 CREATE TABLE shopping_cart_item
 (
     id                  BIGSERIAL PRIMARY KEY,
-    shopping_cart_id    BIGINT REFERENCES reservation_seat ON DELETE CASCADE,
+    shopping_cart_id    BIGINT REFERENCES shopping_cart ON DELETE CASCADE,
     reservation_seat_id BIGINT REFERENCES reservation_seat ON DELETE CASCADE
+);
+
+--changeset artem:12
+CREATE TABLE customer_payment_method
+(
+    id             BIGSERIAL PRIMARY KEY,
+    customer_id    BIGINT REFERENCES customer_directory,
+    account_number INT,
+    expiry_date    DATE
+);
+
+--changeset artem:13
+CREATE TABLE customer_order
+(
+    id                BIGSERIAL PRIMARY KEY,
+    customer_id       BIGINT REFERENCES customer_directory,
+    payment_method_id BIGINT REFERENCES customer_payment_method ON DELETE CASCADE,
+    order_status      VARCHAR(16),
+    order_total       INT,
+    date_created      DATE
+);
+
+--changeset artem:14
+CREATE TABLE customer_order_line
+(
+    id                  BIGSERIAL PRIMARY KEY,
+    reservation_seat_id BIGINT REFERENCES reservation_seat ON DELETE CASCADE,
+    customer_order_id   BIGINT REFERENCES customer_order ON DELETE CASCADE,
+    price               INT
 );

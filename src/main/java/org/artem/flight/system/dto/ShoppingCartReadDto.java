@@ -9,7 +9,7 @@ public class ShoppingCartReadDto {
 
     Long id;
 
-    Long customerId;
+    String sessionId;
 
     Integer totalPrice;
 

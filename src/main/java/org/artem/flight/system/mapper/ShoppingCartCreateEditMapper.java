@@ -1,8 +1,6 @@
 package org.artem.flight.system.mapper;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
-import org.artem.flight.system.database.entity.Customer;
 import org.artem.flight.system.database.entity.ShoppingCart;
 import org.artem.flight.system.database.repository.CustomerRepository;
 import org.artem.flight.system.dto.ShoppingCartCreateEditDto;
@@ -30,13 +28,7 @@ public class ShoppingCartCreateEditMapper implements Mapper<ShoppingCartCreateEd
     }
 
     private void copy(ShoppingCartCreateEditDto object, ShoppingCart shoppingCart) {
-        Customer customer = getCustomer(object);
 
-        shoppingCart.setCustomer(customer);
-    }
-
-    private Customer getCustomer(ShoppingCartCreateEditDto shoppingCartCreateEditDto) {
-        return customerRepository.findById(shoppingCartCreateEditDto.getCustomerId())
-                .orElseThrow();
+        shoppingCart.setSessionId(object.getSessionId());
     }
 }

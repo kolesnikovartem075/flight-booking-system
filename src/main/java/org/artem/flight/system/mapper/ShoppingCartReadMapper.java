@@ -22,7 +22,7 @@ public class ShoppingCartReadMapper implements Mapper<ShoppingCart, ShoppingCart
         List<ShoppingCartItemReadDto> items = getItems(object);
 
         return new ShoppingCartReadDto(object.getId(),
-                object.getCustomer().getId(),
+                object.getSessionId(),
                 getTotalSum(items),
                 items);
     }
