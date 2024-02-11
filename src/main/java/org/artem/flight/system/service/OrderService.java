@@ -1,6 +1,7 @@
 package org.artem.flight.system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.entity.ReservationStatus;
 import org.artem.flight.system.database.repository.OrderRepository;
 import org.artem.flight.system.dto.*;
 import org.artem.flight.system.mapper.OrderCreateEditMapper;
@@ -21,9 +22,9 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderReadMapper orderReadMapper = Mappers.getMapper(OrderReadMapper.class);
     private final OrderCreateEditMapper orderCreateEditMapper;
-    private final CustomerService customerService;
     private final ShoppingCartService shoppingCartService;
     private final OrderLineService orderLineService;
+    private final ReservationSeatService reservationSeatService;
 
 
     public List<OrderReadDto> findAll() {
@@ -42,8 +43,7 @@ public class OrderService {
         var orderReadDto = create(orderDto);
         var shoppingCart = getShoppingCart(orderDto.getSessionId());
 
-        var orderLines = createOrderLines(orderReadDto, shoppingCart);
-        orderLines.forEach(this::updateQuantity);
+        createOrderLines(orderReadDto, shoppingCart);
         deleteShoppingCart(orderDto.getSessionId());
 
         return orderReadDto;
@@ -69,10 +69,6 @@ public class OrderService {
                 .orElse(false);
     }
 
-    private void updateQuantity(OrderLineReadDto orderLine) {
-//        reservationSeatService.subtractQuantity(orderLine.getReservationSeatReadDto().getId(), orderLine.getQuantity());
-    }
-
     private void deleteShoppingCart(String sessionId) {
         Optional.of(getShoppingCart(sessionId))
                 .map(ShoppingCartReadDto::getId)
@@ -84,11 +80,13 @@ public class OrderService {
         return shoppingCartService.findBy(sessionId).orElseThrow();
     }
 
-    private List<OrderLineReadDto> createOrderLines(OrderReadDto orderDto, ShoppingCartReadDto shoppingCart) {
-        return shoppingCart.getItems().stream()
+    private void createOrderLines(OrderReadDto orderDto, ShoppingCartReadDto shoppingCart) {
+        shoppingCart.getItems().stream()
                 .map(it -> new OrderLineCreateEditDto(orderDto.getId(), it.getReservationSeat().getId(), it.getReservationSeat().getPrice()))
                 .map(orderLineService::create)
-                .toList();
+                .map(OrderLineReadDto::getReservationSeat)
+                .map(ReservationSeatReadDto::getId)
+                .forEach(reservationId -> reservationSeatService.updateStatus(reservationId, ReservationStatus.RESERVED));
     }
 
     @Transactional

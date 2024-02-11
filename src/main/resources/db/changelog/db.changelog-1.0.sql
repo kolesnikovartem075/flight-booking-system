@@ -105,26 +105,16 @@ CREATE TABLE shopping_cart_item
 );
 
 --changeset artem:12
-CREATE TABLE customer_payment_method
-(
-    id             BIGSERIAL PRIMARY KEY,
-    customer_id    BIGINT REFERENCES customer_directory,
-    account_number INT,
-    expiry_date    DATE
-);
-
---changeset artem:13
 CREATE TABLE customer_order
 (
     id                BIGSERIAL PRIMARY KEY,
-    customer_id       BIGINT REFERENCES customer_directory,
-    payment_method_id BIGINT REFERENCES customer_payment_method ON DELETE CASCADE,
+    customer_id       BIGINT REFERENCES customer,
     order_status      VARCHAR(16),
     order_total       INT,
     date_created      DATE
 );
 
---changeset artem:14
+--changeset artem:13
 CREATE TABLE customer_order_line
 (
     id                  BIGSERIAL PRIMARY KEY,

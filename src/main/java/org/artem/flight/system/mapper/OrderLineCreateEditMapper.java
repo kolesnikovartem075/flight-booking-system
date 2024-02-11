@@ -32,7 +32,7 @@ public class OrderLineCreateEditMapper implements Mapper<OrderLineCreateEditDto,
 
 
     private void copy(OrderLineCreateEditDto orderLine, OrderLine entity) {
-        var reservationSeat = getProductCatalog(orderLine);
+        var reservationSeat = getReservationSeat(orderLine);
         var order = getOrder(orderLine);
 
         entity.setReservationSeat(reservationSeat);
@@ -45,7 +45,7 @@ public class OrderLineCreateEditMapper implements Mapper<OrderLineCreateEditDto,
                 .orElseThrow();
     }
 
-    private ReservationSeat getProductCatalog(OrderLineCreateEditDto orderLine) {
+    private ReservationSeat getReservationSeat(OrderLineCreateEditDto orderLine) {
         return reservationSeatRepository.findById(orderLine.getReservationSeatId())
                 .orElseThrow();
     }

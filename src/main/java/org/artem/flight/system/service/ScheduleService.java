@@ -1,6 +1,7 @@
 package org.artem.flight.system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.entity.ScheduleStatus;
 import org.artem.flight.system.database.repository.ScheduleRepository;
 import org.artem.flight.system.dto.ScheduleCreateEditDto;
 import org.artem.flight.system.dto.ScheduleReadDto;
@@ -33,6 +34,11 @@ public class ScheduleService {
                 .map(scheduleReadMapper::map);
     }
 
+    public Optional<ScheduleReadDto> findByReservationId(Long id) {
+        return scheduleRepository.findByReservationSeatsId(id)
+                .map(scheduleReadMapper::map);
+    }
+
     @Transactional
     public ScheduleReadDto create(ScheduleCreateEditDto scheduleDto) {
         return Optional.of(scheduleDto)
@@ -46,6 +52,17 @@ public class ScheduleService {
     public Optional<ScheduleReadDto> update(Long id, ScheduleCreateEditDto scheduleDto) {
         return scheduleRepository.findById(id)
                 .map(entity -> scheduleCreateEditMapper.map(scheduleDto, entity))
+                .map(scheduleRepository::saveAndFlush)
+                .map(scheduleReadMapper::map);
+    }
+
+    @Transactional
+    public Optional<ScheduleReadDto> updateStatus(Long id, ScheduleStatus scheduleStatus) {
+        return scheduleRepository.findById(id)
+                .map(entity -> {
+                    entity.setStatus(scheduleStatus);
+                    return entity;
+                })
                 .map(scheduleRepository::saveAndFlush)
                 .map(scheduleReadMapper::map);
     }

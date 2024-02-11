@@ -19,7 +19,7 @@ import java.util.Optional;
 public class ShoppingCartItemService {
 
     private final ShoppingCartItemRepository shoppingCartItemRepository;
-    private final ShoppingCartItemReadMapper shoppingCartItemReadMapper = Mappers.getMapper(ShoppingCartItemReadMapper.class);
+    private final ShoppingCartItemReadMapper shoppingCartItemReadMapper;
     private final ShoppingCartItemCreateEditMapper shoppingCartItemCreateEditMapper;
 
     public List<ShoppingCartItemReadDto> findAll() {
@@ -41,8 +41,8 @@ public class ShoppingCartItemService {
 
 
     @Transactional
-    public ShoppingCartItemReadDto create(ShoppingCartItemCreateEditDto customerDto) {
-        return Optional.of(customerDto)
+    public ShoppingCartItemReadDto create(ShoppingCartItemCreateEditDto shoppingCartItemCreateEditDto) {
+        return Optional.of(shoppingCartItemCreateEditDto)
                 .map(shoppingCartItemCreateEditMapper::map)
                 .map(shoppingCartItemRepository::save)
                 .map(shoppingCartItemReadMapper::map)

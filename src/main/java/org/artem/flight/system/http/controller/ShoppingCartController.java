@@ -1,12 +1,10 @@
 package org.artem.flight.system.http.controller;
 
-import com.artem.dto.ShoppingCartCreateEditDto;
-import com.artem.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.dto.ShoppingCartCreateEditDto;
+import org.artem.flight.system.service.ScheduleService;
+import org.artem.flight.system.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,47 +16,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @RequestMapping("/shopping-cart")
 @Controller
 @RequiredArgsConstructor
 public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
+    private final ScheduleService scheduleService;
 
     @GetMapping
-    public String find(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        return shoppingCartService.findBy(userDetails)
+    public String find(HttpSession session, Model model) {
+        return shoppingCartService.findBy(session.getId())
                 .map(shoppingCart -> {
                     model.addAttribute("shoppingCart", shoppingCart);
                     return "shoppingCart/shoppingCart";
-                }).orElseGet(() -> "shoppingCart/shoppingCartEmpty");
-    }
-
-    @PostMapping("/createShoppingCart")
-    public String createShoppingCart(@Validated ShoppingCartCreateEditDto shoppingCart,
-                                     BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("shoppingCart", shoppingCart);
-            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
-            return "redirect:/shopping-cart/create";
-        }
-
-        return "redirect:/shopping-cart/" + shoppingCartService.create(shoppingCart).getId();
-    }
-
-
-    @GetMapping("/update")
-    public String update(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        return shoppingCartService.findBy(userDetails)
-                .map(shoppingCart -> {
-                    model.addAttribute("shoppingCart", shoppingCart);
-                    return "customer/customerEdit";
-                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                }).orElse("shoppingCart/shoppingCartEmpty");
     }
 
     @PostMapping("/updateShoppingCart")
-    public String updateShoppingCart(@AuthenticationPrincipal UserDetails userDetails,
+    public String updateShoppingCart(String sessionId,
                                      @Validated ShoppingCartCreateEditDto shoppingCart,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes) {
@@ -68,14 +46,14 @@ public class ShoppingCartController {
             return "redirect:/shopping-cart/{id}/update";
         }
 
-        return shoppingCartService.update(userDetails, shoppingCart)
+        return shoppingCartService.update(sessionId, shoppingCart)
                 .map(it -> "redirect:/shopping-cart/{id}/update")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/delete")
-    public String delete(@AuthenticationPrincipal UserDetails userDetails) {
-        if (!shoppingCartService.delete(userDetails)) {
+    public String delete(String sessionId) {
+        if (!shoppingCartService.delete(sessionId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
@@ -83,11 +61,11 @@ public class ShoppingCartController {
     }
 
     @GetMapping("{id}/put")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
-    public String put(@PathVariable("id") Long productId,
-                      @AuthenticationPrincipal UserDetails userDetails) {
-        shoppingCartService.putItem(productId, userDetails.getUsername());
+    public String put(@PathVariable("id") Long reservationSeatId, HttpSession session) {
+        shoppingCartService.putItem(reservationSeatId, session.getId());
 
-        return "redirect:/products";
+        return "redirect:/schedules" + scheduleService.findByReservationId(reservationSeatId)
+                .map(schedule -> "/" + schedule.getId())
+                .orElseThrow();
     }
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{parts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Create order</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h4>Create order</h4>
+    <div class="row">
+        <div th:each="item : ${shoppingCart.items}" class="col-sm-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${item.reservationSeat.seat.numberNo}">Seat Number</h5>
+                    <p class="card-text" th:text="${item.reservationSeat.seat.rank}">Seat Rank</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="|Price: ${item.reservationSeat.price}|">Seat Price</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5 mt-2">
+        <label for="accountNumber" class="col-sm-2 col-form-label">Total sum:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="totalPrice" th:placeholder="${shoppingCart.totalPrice}" disabled>
+            <div th:if="${bindingResult}">
+                <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('totalPrice')}"
+                     th:text="${e.getDefaultMessage()}" class="text-danger"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <form th:action="@{/orders/createOrder}" method="post" th:object="${order}">
+        <h4>Create order</h4>
+        <div class="row mb-5">
+            <div class="row mb-2">
+            <label for="email" class="col-sm-2 col-form-label">Email: </label>
+            <div class="col-sm-2">
+                <input type="email" class="form-control" id="email" th:field="*{email}" name="email">
+                <div th:if="${bindingResult}">
+                    <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('email')}"
+                         th:text="${e.getDefaultMessage()}" class="text-danger"></div>
+                </div>
+            </div>
+            </div>
+
+            <div class="row mb-5">
+                <label for="accountNumber" class="col-sm-2 col-form-label">Account number:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="accountNumber" th:value="${paymentMethod?.accountNumber}" name="accountNumber">
+                    <div th:if="${bindingResult}">
+                        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('accountNumber')}"
+                             th:text="${e.getDefaultMessage()}" class="text-danger"></div>
+                    </div>
+                </div>
+
+                <label for="expiryDate" class="col-sm-2 col-form-label">Expiry date:</label>
+                <div class="col-sm-2">
+                    <input type="date" class="form-control" id="expiryDate"  th:value="${paymentMethod?.expiryDate}" name="expiryDate">
+                    <div th:if="${bindingResult}">
+                        <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('expiryDate')}"
+                             th:text="${e.getDefaultMessage()}" class="text-danger"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input hidden="hidden" th:value="${shoppingCart.totalPrice}" name="total">
+        <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+</div>
+</body>
+</html>

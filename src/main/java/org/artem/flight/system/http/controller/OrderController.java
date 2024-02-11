@@ -3,9 +3,9 @@ package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.artem.flight.system.database.entity.OrderStatus;
-import org.artem.flight.system.dto.*;
+import org.artem.flight.system.dto.OrderCreateEditDto;
+import org.artem.flight.system.dto.ShoppingCartReadDto;
 import org.artem.flight.system.service.OrderService;
-import org.artem.flight.system.service.PaymentMethodService;
 import org.artem.flight.system.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 @RequestMapping("/orders")
 @Controller
@@ -25,15 +25,15 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ShoppingCartService shoppingCartService;
-    private final PaymentMethodService paymentMethodService;
 
     @GetMapping
-    public String findAll(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        var orders = getOrders(userDetails);
+    public String findAll(Model model) {
+        var orders = orderService.findAll();
         model.addAttribute("orders", orders);
 
         return "order/orders";
     }
+
     @GetMapping("/{id}")
     public String findById(@PathVariable Long id, Model model) {
         return orderService.findById(id)
@@ -45,29 +45,26 @@ public class OrderController {
     }
 
     @GetMapping("/create")
-    public String create(@ModelAttribute OrderCreateEditDto order, Model model) {
-        var shoppingCartReadDto = getShoppingCartReadDto(order.getSessionId());
-        var paymentMethod = getPaymentMethodReadDto(userDetails);
+    public String create(@ModelAttribute OrderCreateEditDto order, Model model, HttpSession session) {
+        var shoppingCartReadDto = getShoppingCartReadDto(session.getId());
 
         model.addAttribute("shoppingCart", shoppingCartReadDto);
-        model.addAttribute("paymentMethod", paymentMethod);
         model.addAttribute("order", order);
 
         return "order/orderCreate";
     }
 
     @PostMapping("/createOrder")
-    public String createOrder(PaymentMethodCreateEditDto paymentMethod,
-                              @Validated OrderCreateEditDto order,
+    public String createOrder(@Validated OrderCreateEditDto order,
                               BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes,
+                              HttpSession session) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("order", order);
-            redirectAttributes.addFlashAttribute("paymentMethod", paymentMethod);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
             return "redirect:/shopping-cart/create";
         }
-
+        order.setSessionId(session.getId());
         return "redirect:/orders/" + orderService.createOrder(order).getId();
     }
 
@@ -115,16 +112,4 @@ public class OrderController {
         return shoppingCartService.findBy(sessionId)
                 .orElseThrow();
     }
-
-    private PaymentMethodReadDto getPaymentMethodReadDto(UserDetails userDetails) {
-        return paymentMethodService.findByCustomer(userDetails)
-                .orElse(null);
-    }
-
-    private List<OrderReadDto> getOrders(UserDetails userDetails) {
-        return userDetails.getAuthorities().contains(Role.MANAGER)
-                ? orderService.findAll()
-                : orderService.findAllByCustomer(userDetails);
-    }
-
 }

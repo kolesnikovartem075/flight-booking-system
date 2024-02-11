@@ -24,9 +24,6 @@ public class Order implements BaseEntity<Long> {
     @ManyToOne
     private Customer customer;
 
-    @ManyToOne
-    private PaymentMethod paymentMethod;
-
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;
 

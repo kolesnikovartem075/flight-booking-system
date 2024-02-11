@@ -68,6 +68,17 @@ public class ReservationSeatService {
     }
 
     @Transactional
+    public Optional<ReservationSeatReadDto> updateStatus(Long id, ReservationStatus status) {
+        return reservationRepository.findById(id)
+                .map(entity -> {
+                    entity.setStatus(status);
+                    return entity;
+                })
+                .map(reservationRepository::saveAndFlush)
+                .map(reservationReadMapper::map);
+    }
+
+    @Transactional
     public boolean delete(Long id) {
         return reservationRepository.findById(id)
                 .map(entity -> {

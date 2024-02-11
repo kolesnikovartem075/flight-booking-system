@@ -6,8 +6,7 @@ import lombok.Value;
 public class OrderLineReadDto {
 
     Long id;
-    ReservationSeatReadDto reservationSeatReadDto;
+    ReservationSeatReadDto reservationSeat;
 
-    Integer quantity;
     Integer price;
 }

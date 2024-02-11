@@ -1,8 +1,8 @@
 package org.artem.flight.system.http.controller;
 
-import com.artem.dto.ShoppingCartItemCreateEditDto;
-import com.artem.service.ShoppingCartItemService;
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.dto.ShoppingCartItemCreateEditDto;
+import org.artem.flight.system.service.ShoppingCartItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

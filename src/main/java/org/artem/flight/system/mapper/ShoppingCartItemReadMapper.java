@@ -1,16 +1,18 @@
 package org.artem.flight.system.mapper;
 
+import lombok.AllArgsConstructor;
 import org.artem.flight.system.database.entity.ShoppingCartItem;
 import org.artem.flight.system.dto.ReservationSeatReadDto;
 import org.artem.flight.system.dto.ShoppingCartItemReadDto;
 import org.artem.flight.system.mapper.reservation.ReservationSeatReadMapper;
 import org.springframework.stereotype.Component;
 
+@AllArgsConstructor
 @Component
 public class ShoppingCartItemReadMapper implements Mapper<ShoppingCartItem, ShoppingCartItemReadDto> {
 
 
-    ReservationSeatReadMapper reservationSeatReadMapper;
+    private final ReservationSeatReadMapper reservationSeatReadMapper;
 
     @Override
     public ShoppingCartItemReadDto map(ShoppingCartItem object) {
