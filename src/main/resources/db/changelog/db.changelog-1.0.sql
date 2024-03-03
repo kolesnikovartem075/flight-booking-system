@@ -1,90 +1,88 @@
 --liquibase formatted sql
 
 --changeset artem:1
-create table airline
+CREATE TABLE airline
 (
     id    BIGSERIAL PRIMARY KEY,
-    title varchar(128)
+    title VARCHAR(128)
 
 );
 
 --changeset artem:2
-create table country
+CREATE TABLE country
 (
     id   BIGSERIAL PRIMARY KEY,
-    name varchar(128) unique
+    name VARCHAR(128) UNIQUE
 
 );
 
 --changeset artem:3
-create table city
+CREATE TABLE city
 (
     id         BIGSERIAL PRIMARY KEY,
     country_id BIGINT REFERENCES country,
-    name       varchar(128)
+    name       VARCHAR(128)
 
 );
 
 
 --changeset artem:4
-create table airport
+CREATE TABLE airport
 (
     id      BIGSERIAL PRIMARY KEY,
-    city_id bigint references city,
-    name    varchar(128)
+    city_id bigint REFERENCES city,
+    name    VARCHAR(128)
 
 );
 
 --changeset artem:5
-create table flight
+CREATE TABLE flight
 (
     id            BIGSERIAL PRIMARY KEY,
-    flight_no     varchar(128) UNIQUE,
-    airport_id    bigint references airport,
-    airline_id    bigint references airline,
+    flight_no     VARCHAR(128) UNIQUE,
+    airline_id    bigint REFERENCES airline,
     seat_capacity int
 );
 
 --changeset artem:6
-create table seat
+CREATE TABLE seat
 (
     id        BIGSERIAL PRIMARY KEY,
-    flight_id bigint references flight,
-    number_no varchar(64) UNIQUE,
-    rank      varchar(64)
+    flight_id bigint REFERENCES flight,
+    number_no VARCHAR(64) UNIQUE,
+    rank      VARCHAR(64)
 );
 
 --changeset artem:7
-create table schedule
+CREATE TABLE schedule
 (
     id               BIGSERIAL PRIMARY KEY,
-    flight_id        bigint references flight,
-    start_airport_id bigint references airport,
-    end_airport_id   bigint references airport,
-    start_time       timestamp,
-    end_time         timestamp,
-    status           varchar(64)
+    flight_id        bigint REFERENCES flight,
+    start_airport_id bigint REFERENCES airport,
+    end_airport_id   bigint REFERENCES airport,
+    start_time       TIMESTAMP,
+    end_time         TIMESTAMP,
+    status           VARCHAR(64)
 
 );
 
 --changeset artem:8
-create table customer
+CREATE TABLE customer
 (
     id    BIGSERIAL PRIMARY KEY,
-    email varchar(128),
-    unique (email)
+    email VARCHAR(128),
+    UNIQUE (email)
 );
 
 --changeset artem:9
-create table reservation_seat
+CREATE TABLE reservation_seat
 (
     id          BIGSERIAL PRIMARY KEY,
-    schedule_id bigint references schedule,
-    seat_id     bigint references seat,
-    customer_id bigint references customer,
-    status      varchar(64),
+    schedule_id bigint REFERENCES schedule,
+    seat_id     bigint REFERENCES seat,
+    status      VARCHAR(64),
     price       int,
-    unique (schedule_id, seat_id)
+    UNIQUE (schedule_id, seat_id)
 );
 
 --changeset artem:10
@@ -107,11 +105,11 @@ CREATE TABLE shopping_cart_item
 --changeset artem:12
 CREATE TABLE customer_order
 (
-    id                BIGSERIAL PRIMARY KEY,
-    customer_id       BIGINT REFERENCES customer,
-    order_status      VARCHAR(16),
-    order_total       INT,
-    date_created      DATE
+    id           BIGSERIAL PRIMARY KEY,
+    customer_id  BIGINT REFERENCES customer,
+    order_status VARCHAR(16),
+    order_total  INT,
+    date_created DATE
 );
 
 --changeset artem:13
