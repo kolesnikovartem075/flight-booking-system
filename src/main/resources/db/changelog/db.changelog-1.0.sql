@@ -49,8 +49,9 @@ CREATE TABLE seat
 (
     id        BIGSERIAL PRIMARY KEY,
     flight_id bigint REFERENCES flight,
-    number_no VARCHAR(64) UNIQUE,
-    rank      VARCHAR(64)
+    number_no VARCHAR(64),
+    rank      VARCHAR(64),
+    UNIQUE (flight_id, number_no)
 );
 
 --changeset artem:7
@@ -90,8 +91,7 @@ CREATE TABLE shopping_cart
 (
     id           BIGSERIAL PRIMARY KEY,
     session_id   VARCHAR(32),
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (id, session_id)
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 --changeset artem:11

@@ -4,13 +4,13 @@
       layout:decorate="~{parts/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Create order</title>
+    <title>Order</title>
 </head>
 <body>
 <div layout:fragment="content">
     <h4>Order status</h4>
     <div class="row">
-        <p>Products ordered</p>
+        <p>Tickets ordered</p>
         <div th:each="item : ${order.orderLines}" class="col-sm-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="row mb-5 mt-3">
+    <div class="row mb-3 mt-5">
         <label for="orderTotal" class="col-sm-2 col-form-label">Total sum:</label>
         <div class="col-sm-2">
             <input type="text" class="form-control" id="orderTotal" th:placeholder="${order.orderTotal}" disabled>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="row mb-5">
-        <label for="orderStatus" class="col-sm-2 row col-form-label">Order status:</label>
+        <label for="orderStatus" class="col-sm-2 col-form-label">Order status:</label>
         <div class="col-sm-2">
             <input type="text" class="form-control" id="orderStatus" th:placeholder="${order.orderStatus}" disabled>
             <div th:if="${bindingResult}">
@@ -43,7 +43,7 @@
                      th:text="${e.getDefaultMessage()}" class="text-danger"></div>
             </div>
         </div>
-</div>
+    </div>
 </div>
 </body>
 </html>

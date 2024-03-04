@@ -4,11 +4,11 @@
       layout:decorate="~{parts/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Create order</title>
+    <title>Edit Order</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <h4>Order status</h4>
+    <h4>Edit Order</h4>
     <form th:action="@{/orders/{orderId}/updateOrder(orderId=${order.id})}" method="post">
     <div class="row">
         <div th:each="item : ${order.orderLines}" class="col-sm-3">

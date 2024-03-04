@@ -8,21 +8,24 @@ VALUES ('Delta Airlines'),
 INSERT INTO country (name)
 VALUES ('United States'),
        ('Canada'),
-       ('United Kingdom');
+       ('United Kingdom'),
+       ('Ukraine');
 
 -- Insert into city
 INSERT INTO city (country_id, name)
 VALUES (1, 'New York'),
        (1, 'Los Angeles'),
        (2, 'Toronto'),
-       (3, 'London');
+       (3, 'London'),
+       (4, 'Kyiv');
 
 -- Insert into airport
 INSERT INTO airport (city_id, name)
 VALUES (1, 'John F. Kennedy International Airport'),
        (1, 'Los Angeles International Airport'),
        (2, 'Toronto Pearson International Airport'),
-       (3, 'Heathrow Airport');
+       (3, 'Heathrow Airport'),
+       (5, 'Boryspil International Airport');
 
 -- Insert into flight
 INSERT INTO flight (flight_no, airline_id, seat_capacity)
@@ -45,14 +48,14 @@ VALUES ('john.doe@example.com'),
 -- Insert into seat
 INSERT INTO seat (flight_id, number_no, rank)
 VALUES (1, 'A001', 'ECONOMY'),
-       (1, 'B001', 'DELUXE'),
-       (2, 'C001', 'DELUXE'),
-       (3, 'D001', 'DELUXE'),
-       (1, 'A002', 'DELUXE'),
-       (1, 'B002', 'DELUXE'),
+       (1, 'B001', 'FIRST_CLASS'),
+       (2, 'C001', 'FIRST_CLASS'),
+       (3, 'D001', 'FIRST_CLASS'),
+       (1, 'A002', 'FIRST_CLASS'),
+       (1, 'B002', 'FIRST_CLASS'),
        (1, 'C002', 'ECONOMY'),
        (2, 'D002', 'ECONOMY'),
-       (3, 'E001', 'DELUXE'),
+       (3, 'E001', 'FIRST_CLASS'),
        (3, 'F001', 'ECONOMY');
 
 INSERT INTO reservation_seat (schedule_id, seat_id, status, price)

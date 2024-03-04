@@ -23,8 +23,8 @@
         </div>
     </div>
 
-    <div class="row mb-5 mt-2">
-        <label for="accountNumber" class="col-sm-2 col-form-label">Total sum:</label>
+    <div class="row mb-5 mt-3">
+        <label for="totalPrice" class="col-sm-2 col-form-label">Total sum:</label>
         <div class="col-sm-2">
             <input type="text" class="form-control" id="totalPrice" th:placeholder="${shoppingCart.totalPrice}" disabled>
             <div th:if="${bindingResult}">
@@ -37,11 +37,11 @@
     </div>
 
     <form th:action="@{/orders/createOrder}" method="post" th:object="${order}">
-        <h4>Create order</h4>
+        <h4>Personal information</h4>
         <div class="row mb-5">
             <div class="row mb-2">
             <label for="email" class="col-sm-2 col-form-label">Email: </label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <input type="email" class="form-control" id="email" th:field="*{email}" name="email">
                 <div th:if="${bindingResult}">
                     <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('email')}"
@@ -51,8 +51,8 @@
             </div>
 
             <div class="row mb-5">
-                <label for="accountNumber" class="col-sm-2 col-form-label">Account number:</label>
-                <div class="col-sm-2">
+                <label for="accountNumber" class="col-sm-2 col-form-label">Card number:</label>
+                <div class="col-sm-3">
                     <input type="text" class="form-control" id="accountNumber" th:value="${paymentMethod?.accountNumber}" name="accountNumber">
                     <div th:if="${bindingResult}">
                         <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('accountNumber')}"

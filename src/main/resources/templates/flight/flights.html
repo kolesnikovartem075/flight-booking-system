@@ -4,7 +4,7 @@
       layout:decorate="~{parts/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Airports</title>
+    <title>Flights</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -17,6 +17,7 @@
             <th scope="col">Airline</th>
             <th scope="col">Flight Number</th>
             <th scope="col">Seat Capacity</th>
+            <th scope="col">Details</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,9 @@
                    th:text="${flight.airline.title}"></a></td>
             <td th:text="${flight.flightNo}"></td>
             <td th:text="${flight.seatCapacity}"></td>
+            <td>
+                <a class="btn btn-outline-primary p-lg" th:href="@{'/flights/' + ${flight.id}}">Details</a>
+            </td>
         </tr>
         </tbody>
     </table>

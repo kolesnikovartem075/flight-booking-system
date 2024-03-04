@@ -28,7 +28,7 @@
         </div>
         <div class="row mb-2">
             <label for="startAirportId" class="col-sm-2 col-form-label">Start Airport:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
             <select class="form-select" name="startAirportId" id="startAirportId">
                 <option th:each="airport : ${airports}"
                         th:value="${airport.id}"
@@ -44,7 +44,7 @@
         </div>
         <div class="row mb-2">
             <label for="endAirportId" class="col-sm-2 col-form-label">Destination Airport:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
             <select class="form-select" name="endAirportId" id="endAirportId">
                 <option th:each="airport : ${airports}"
                         th:value="${airport.id}"
@@ -60,7 +60,7 @@
         </div>
         <div class="row mb-2">
             <label for="startTime" class="col-sm-2 col-form-label">Start Time:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <input type="datetime-local" class="form-control" id="startTime" th:field="*{startTime}">
                 <div th:if="${bindingResult}">
                     <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('startTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
@@ -69,7 +69,7 @@
         </div>
         <div class="row mb-2">
             <label for="endTime" class="col-sm-2 col-form-label">End Time:</label>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <input type="datetime-local" class="form-control" id="endTime" th:field="*{endTime}">
                 <div th:if="${bindingResult}">
                     <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('endTime')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>

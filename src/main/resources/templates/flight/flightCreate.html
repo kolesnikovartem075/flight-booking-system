@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="content">
 <form th:action="@{/flights/createFlight}" method="post" th:object="${flight}">
-    <h4>Create Airport</h4>
+    <h4>Create Flight</h4>
     <div class="row mb-2">
         <label for="flightNo" class="col-sm-2 col-form-label">Flight NO:</label>
         <div class="col-sm-2">
@@ -20,7 +20,8 @@
         </div>
     </div>
     <div class="row mb-2">
-        <label for="activity" class="col-sm-2 col-form-label">Country:</label>
+        <label for="activity" class="col-sm-2 col-form-label">Airline:</label>
+        <div class="col-sm-3">
         <select class="form-select" name="airlineId" id="activity">
             <option th:each="airline : ${airlines}"
                     th:value="${airline.id}"
@@ -29,6 +30,7 @@
                 Airline name
             </option>
         </select>
+    </div>
         <div th:if="${bindingResult}">
             <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('airlineId')}" th:text="${e.getDefaultMessage()}"  class="text-danger"></div>
         </div>
