@@ -2,7 +2,8 @@
 INSERT INTO airline (title)
 VALUES ('Delta Airlines'),
        ('United Airlines'),
-       ('American Airlines');
+       ('American Airlines'),
+       ('Ukraine International Airlines');
 
 -- Insert into country
 INSERT INTO country (name)
