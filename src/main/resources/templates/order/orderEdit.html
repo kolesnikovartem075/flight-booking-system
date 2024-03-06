@@ -20,6 +20,12 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item" th:text="|Price: ${item.reservationSeat.price}|">Seat Price</li>
                 </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="|First name: ${item.firstName}|">First name</li>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="|Last name: ${item.lastName}|">Last name</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -41,13 +47,7 @@
                                 th:value="${status.name()}"
                                 th:if="${order.orderStatus.name()}"
                                 th:selected="${order.orderStatus.name().equals(status.name())}"
-                                th:text="${status.name()}">Activity
-                        </option>
-                        <option th:each="status : ${statusList}"
-                                th:value="${status.name()}"
-                                th:if="${order.orderStatus.name()}"
-                                th:selected="${order.orderStatus.name().equals(status.name())}"
-                                th:text="${status.name()}">Activity
+                                th:text="${status.name()}">Order Status
                         </option>
                     </select>
                 </div>

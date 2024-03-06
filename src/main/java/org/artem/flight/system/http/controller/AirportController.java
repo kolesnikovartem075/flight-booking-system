@@ -2,9 +2,7 @@
 package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.artem.flight.system.database.repository.CountryRepository;
 import org.artem.flight.system.dto.AirportCreateEditDto;
-import org.artem.flight.system.service.CityService;
 import org.artem.flight.system.service.AirportService;
 import org.artem.flight.system.service.CountryService;
 import org.springframework.http.HttpStatus;
@@ -53,8 +51,8 @@ public class AirportController {
     @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/createAirport")
     public String createAirport(@Validated AirportCreateEditDto airport,
-                                 BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes) {
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("airport", airport);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
@@ -78,9 +76,9 @@ public class AirportController {
     @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/updateAirport")
     public String updateAirport(@PathVariable Long id,
-                                 @Validated AirportCreateEditDto airport,
-                                 BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes) {
+                                @Validated AirportCreateEditDto airport,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("airport", airport);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);

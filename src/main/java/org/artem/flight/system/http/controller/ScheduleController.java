@@ -2,9 +2,9 @@
 package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.artem.flight.system.database.entity.ReservationStatus;
 import org.artem.flight.system.database.entity.ScheduleStatus;
-import org.artem.flight.system.dto.*;
+import org.artem.flight.system.dto.ReservationSeatCreateEditDto;
+import org.artem.flight.system.dto.ScheduleCreateEditDto;
 import org.artem.flight.system.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/schedules")
@@ -61,8 +59,8 @@ public class ScheduleController {
     @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/createSchedule")
     public String createSchedule(@Validated ScheduleCreateEditDto schedule,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
@@ -91,9 +89,9 @@ public class ScheduleController {
     @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/updateSchedule")
     public String updateSchedule(@PathVariable Long id,
-                                @Validated ScheduleCreateEditDto schedule,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
+                                 @Validated ScheduleCreateEditDto schedule,
+                                 BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("schedule", schedule);
             redirectAttributes.addFlashAttribute("bindingResult", bindingResult);

@@ -19,7 +19,7 @@
                     <div class="row mb-2">
                         <label for="firstName" class="col-sm-5 col-form-label">Firstname: </label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" id="firstName" th:name="|orderLineCreateEditDtos[${itemStat.index}].firstName|">
+                            <input type="text" class="form-control" id="firstName" th:name="|orderLines[${itemStat.index}].firstName|">
                             <div th:if="${bindingResult}">
                                 <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('email')}"
                                      th:text="${e.getDefaultMessage()}" class="text-danger"></div>
@@ -29,7 +29,7 @@
                     <div class="row mb-2">
                         <label for="lastname" class="col-sm-5 col-form-label">Lastname: </label>
                         <div class="col-sm-7">
-                            <input type="text" class="form-control" id="lastname" th:name="|orderLineCreateEditDtos[${itemStat.index}].lastName|">
+                            <input type="text" class="form-control" id="lastname" th:name="|orderLines[${itemStat.index}].lastName|">
                             <div th:if="${bindingResult}">
                                 <div th:if="${e}" th:each="e : ${bindingResult.getFieldErrors('email')}"
                                      th:text="${e.getDefaultMessage()}" class="text-danger"></div>
@@ -40,8 +40,8 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item" th:text="|Price: ${item.reservationSeat.price}|">Seat Price</li>
                 </ul>
-                <input type="text" hidden="hidden" th:name="|orderLineCreateEditDtos[${itemStat.index}].reservationSeatId|"  th:value="${item.reservationSeat.id}">
-                <input type="text" hidden="hidden" th:name="|orderLineCreateEditDtos[${itemStat.index}].price|"  th:value="${item.reservationSeat.price}">
+                <input type="text" hidden="hidden" th:name="|orderLines[${itemStat.index}].reservationSeatId|"  th:value="${item.reservationSeat.id}">
+                <input type="text" hidden="hidden" th:name="|orderLines[${itemStat.index}].price|"  th:value="${item.reservationSeat.price}">
             </div>
         </div>
     </div>

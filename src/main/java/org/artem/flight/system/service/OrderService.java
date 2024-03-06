@@ -81,7 +81,7 @@ public class OrderService {
     }
 
     private void createOrderLines(OrderReadDto orderDto, OrderCreateEditDto orderCreateDto) {
-        orderCreateDto.getOrderLineCreateEditDtos().stream()
+        orderCreateDto.getOrderLines().stream()
                 .peek(orderLine -> orderLine.setCustomerOrderId(orderDto.getId()))
                 .map(orderLineService::create)
                 .map(OrderLineReadDto::getReservationSeat)
