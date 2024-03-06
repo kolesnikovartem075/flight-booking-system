@@ -30,7 +30,7 @@
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary p-lg" th:href="@{/airports/create}" role="button">Create airport</a>
+    <a sec:authorize="hasAuthority('MANAGER')" class="btn btn-primary p-lg" th:href="@{/airports/create}" role="button">Create airport</a>
 </div>
 </body>
 </html>

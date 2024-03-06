@@ -6,6 +6,7 @@ import org.artem.flight.system.dto.AirlineCreateEditDto;
 import org.artem.flight.system.service.AirlineService;
 import org.artem.flight.system.service.CountryService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,7 @@ public class AirlineController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/create")
     public String create(Model model,
                          @ModelAttribute("airline") AirlineCreateEditDto airline) {
@@ -46,6 +48,7 @@ public class AirlineController {
         return "airline/airlineCreate";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/createAirline")
     public String createAirline(@Validated AirlineCreateEditDto airline,
                                  BindingResult bindingResult,
@@ -59,6 +62,7 @@ public class AirlineController {
         return "redirect:/airlines/" + airlineService.create(airline).getId();
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("{id}/update")
     public String update(@PathVariable Long id, Model model) {
         return airlineService.findById(id)
@@ -69,6 +73,7 @@ public class AirlineController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/updateAirline")
     public String updateAirline(@PathVariable Long id,
                                  @Validated AirlineCreateEditDto airline,
@@ -85,6 +90,7 @@ public class AirlineController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
         if (!airlineService.delete(id)) {

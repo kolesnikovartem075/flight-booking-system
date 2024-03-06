@@ -8,6 +8,7 @@ import org.artem.flight.system.dto.ShoppingCartReadDto;
 import org.artem.flight.system.service.OrderService;
 import org.artem.flight.system.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,7 +71,7 @@ public class OrderController {
 
 
     @GetMapping("{id}/update")
-//    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public String update(@PathVariable Long id, Model model) {
         return orderService.findById(id)
                 .map(order -> {
@@ -82,7 +83,7 @@ public class OrderController {
 
 
     @PostMapping("{id}/updateOrder")
-//    @PreAuthorize("hasAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public String updateOrder(@PathVariable Long id,
                               @Validated OrderCreateEditDto order,
                               BindingResult bindingResult,
@@ -99,6 +100,7 @@ public class OrderController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
         if (!orderService.delete(id)) {

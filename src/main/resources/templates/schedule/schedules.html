@@ -45,7 +45,7 @@
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary p-lg" th:href="@{/schedules/create}" role="button">Create schedule</a>
+    <a sec:authorize="hasAuthority('MANAGER')" class="btn btn-primary p-lg" th:href="@{/schedules/create}" role="button">Create schedule</a>
 </div>
 </body>
 </html>

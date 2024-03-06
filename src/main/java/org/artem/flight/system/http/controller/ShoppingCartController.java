@@ -5,6 +5,7 @@ import org.artem.flight.system.dto.ShoppingCartCreateEditDto;
 import org.artem.flight.system.service.ScheduleService;
 import org.artem.flight.system.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,6 +52,7 @@ public class ShoppingCartController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/delete")
     public String delete(String sessionId) {
         if (!shoppingCartService.delete(sessionId)) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{parts/layout}">
+      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Flights</title>
@@ -34,7 +34,7 @@
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary p-lg" th:href="@{/flights/create}" role="button">Create flight</a>
+    <a sec:authorize="hasAuthority('MANAGER')" class="btn btn-primary p-lg" th:href="@{/flights/create}" role="button">Create flight</a>
 </div>
 </body>
 </html>

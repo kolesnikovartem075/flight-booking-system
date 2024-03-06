@@ -8,6 +8,7 @@ import org.artem.flight.system.service.CityService;
 import org.artem.flight.system.service.AirportService;
 import org.artem.flight.system.service.CountryService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class AirportController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/create")
     public String create(Model model,
                          @ModelAttribute("airport") AirportCreateEditDto airport) {
@@ -48,6 +50,7 @@ public class AirportController {
         return "airport/airportCreate";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/createAirport")
     public String createAirport(@Validated AirportCreateEditDto airport,
                                  BindingResult bindingResult,
@@ -61,6 +64,7 @@ public class AirportController {
         return "redirect:/airports/" + airportService.createWithCity(airport).getId();
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("{id}/update")
     public String update(@PathVariable Long id, Model model) {
         return airportService.findById(id)
@@ -71,6 +75,7 @@ public class AirportController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/updateAirport")
     public String updateAirport(@PathVariable Long id,
                                  @Validated AirportCreateEditDto airport,
@@ -87,6 +92,7 @@ public class AirportController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
         if (!airportService.delete(id)) {

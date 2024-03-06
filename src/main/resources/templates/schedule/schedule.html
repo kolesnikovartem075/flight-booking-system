@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{parts/layout}">
+      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,7 +53,7 @@
             <input type="text" class="form-control" id="status" th:placeholder="${schedule.status}" disabled>
         </div>
     </div>
-    <div class="btn-group mt-2 mb-2">
+    <div sec:authorize="hasAuthority('MANAGER')" class="btn-group mt-2 mb-2">
         <a class="btn btn-primary p-lg"
            th:href="@{/schedules/{scheduleId}/update(scheduleId=${schedule.id})}"
            role="button">Update schedule</a>

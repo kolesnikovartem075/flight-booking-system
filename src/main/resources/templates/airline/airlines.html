@@ -26,7 +26,7 @@
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary p-lg" th:href="@{/airlines/create}" role="button">Create airline</a>
+    <a sec:authorize="hasAuthority('MANAGER')" class="btn btn-primary p-lg" th:href="@{/airlines/create}" role="button">Create airline</a>
 </div>
 </body>
 </html>

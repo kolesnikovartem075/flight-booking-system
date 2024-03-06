@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
@@ -22,6 +22,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/shopping-cart}">Shopping cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="hasAuthority('MANAGER')" th:href="@{/orders}">Orders</a>
+                </li>
+
+                <li class="nav-item ms-auto" sec:authorize="isAuthenticated()">
+                    <span sec:authorize="hasAuthority('MANAGER')" sec:authentication="principal.username">Username</span>
+                </li>
+                <li class="nav-item ms-3" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn" style="font-size: 12px" type="submit">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>

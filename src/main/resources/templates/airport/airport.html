@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{parts/layout}">
+      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Airport</title>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="btn-group mt-2">
+    <div sec:authorize="hasAuthority('MANAGER')" class="btn-group mt-2">
         <a class="btn btn-primary p-lg"
            th:href="@{/airports/{airportId}/update(airportId=${airport.id})}"
            role="button">Update airport</a>

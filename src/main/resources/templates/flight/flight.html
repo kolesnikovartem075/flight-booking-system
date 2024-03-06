@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{parts/layout}">
+      layout:decorate="~{parts/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Flight</title>
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class="btn-group mt-2">
+    <div sec:authorize="hasAuthority('MANAGER')" class="btn-group mt-2">
         <a class="btn btn-primary p-lg"
            th:href="@{/flights/{flightId}/update(flightId=${flight.id})}"
            role="button">Update flight</a>
@@ -44,7 +44,7 @@
             <th scope="col">id</th>
             <th scope="col">NumberNO</th>
             <th scope="col">Rank</th>
-            <th scope="col">Details</th>
+<!--            <th scope="col">Details</th>-->
         </tr>
         </thead>
         <tbody>
@@ -52,12 +52,12 @@
             <td th:text="${seat.id}"></td>
             <td th:text="${seat.numberNo}"></td>
             <td th:text="${seat.rank}"></td>
-            <td>  <a class="btn btn-outline-primary p-lg" th:href="@{'/seats/' + ${seat.id}}">Details</a></td>
+<!--            <td>  <a class="btn btn-outline-primary p-lg" th:href="@{'/seats/' + ${seat.id}}">Details</a></td>-->
         </tr>
         </tbody>
     </table>
 
-    <form th:action="@{/flights/createSeat}" method="post" th:object="${flight}">
+    <form sec:authorize="hasAuthority('MANAGER')" th:action="@{/flights/createSeat}" method="post" th:object="${flight}">
         <input hidden="hidden" th:value="${flight.id}" name="flightId">
         <div class="row mb-2">
             <label for="numberNo" class="col-sm-2 col-form-label">NumberNO: </label>

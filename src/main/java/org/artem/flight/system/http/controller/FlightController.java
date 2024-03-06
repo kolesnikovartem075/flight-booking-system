@@ -9,6 +9,7 @@ import org.artem.flight.system.service.AirlineService;
 import org.artem.flight.system.service.FlightService;
 import org.artem.flight.system.service.SeatService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,7 @@ public class FlightController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/create")
     public String create(Model model,
                          @ModelAttribute("flight") FlightCreateEditDto flight) {
@@ -53,6 +55,7 @@ public class FlightController {
         return "flight/flightCreate";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/createFlight")
     public String createFlight(@Validated FlightCreateEditDto flight,
                                BindingResult bindingResult,
@@ -81,6 +84,7 @@ public class FlightController {
         return "redirect:/flights/" + flightId;
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("{id}/update")
     public String update(@PathVariable Long id, Model model) {
         return flightService.findById(id)
@@ -91,6 +95,7 @@ public class FlightController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/updateFlight")
     public String updateFlight(@PathVariable Long id,
                                @Validated FlightCreateEditDto flight,
@@ -107,6 +112,7 @@ public class FlightController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
         if (!flightService.delete(id)) {

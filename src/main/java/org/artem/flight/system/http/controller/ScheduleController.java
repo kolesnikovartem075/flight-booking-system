@@ -7,6 +7,7 @@ import org.artem.flight.system.database.entity.ScheduleStatus;
 import org.artem.flight.system.dto.*;
 import org.artem.flight.system.service.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,6 +45,7 @@ public class ScheduleController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/create")
     public String create(Model model,
                          @ModelAttribute("schedule") ScheduleCreateEditDto schedule) {
@@ -56,6 +58,7 @@ public class ScheduleController {
         return "schedule/scheduleCreate";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/createSchedule")
     public String createSchedule(@Validated ScheduleCreateEditDto schedule,
                                 BindingResult bindingResult,
@@ -71,6 +74,7 @@ public class ScheduleController {
         return "redirect:/schedules/" + scheduleReadDto.getId() + "/update";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("{id}/update")
     public String update(@PathVariable Long id, Model model) {
         return scheduleService.findById(id)
@@ -84,6 +88,7 @@ public class ScheduleController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/updateSchedule")
     public String updateSchedule(@PathVariable Long id,
                                 @Validated ScheduleCreateEditDto schedule,
@@ -100,6 +105,7 @@ public class ScheduleController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
         if (!scheduleService.delete(id)) {
