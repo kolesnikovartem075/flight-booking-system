@@ -118,5 +118,16 @@ CREATE TABLE customer_order_line
     id                  BIGSERIAL PRIMARY KEY,
     reservation_seat_id BIGINT REFERENCES reservation_seat ON DELETE CASCADE,
     customer_order_id   BIGINT REFERENCES customer_order ON DELETE CASCADE,
+    first_name          VARCHAR(64),
+    last_name           VARCHAR(64),
     price               INT
+);
+
+--changeset artem:14
+CREATE TABLE manager
+(
+    id       BIGSERIAL PRIMARY KEY,
+    username VARCHAR(128) UNIQUE,
+    password VARCHAR(128),
+    role     VARCHAR(32) DEFAULT 'MANAGER'
 );

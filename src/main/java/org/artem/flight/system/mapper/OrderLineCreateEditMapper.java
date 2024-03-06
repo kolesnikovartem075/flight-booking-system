@@ -38,6 +38,8 @@ public class OrderLineCreateEditMapper implements Mapper<OrderLineCreateEditDto,
         entity.setReservationSeat(reservationSeat);
         entity.setOrder(order);
         entity.setPrice(orderLine.getPrice());
+        entity.setFirstName(orderLine.getFirstName());
+        entity.setLastName(orderLine.getLastName());
     }
 
     private Order getOrder(OrderLineCreateEditDto orderLine) {

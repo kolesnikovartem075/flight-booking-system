@@ -97,7 +97,7 @@
                 <!-- Add Make Reservation button -->
                 <div class="row mb-3">
                     <div class="col-sm-12">
-                        <a th:if="${reservationSeat.status.equals('FREE')}" th:href="@{/shopping-cart/{reservationSeatId}/put(reservationSeatId=${reservationSeat.id})}" class="card-link">Make Reservation</a>
+                        <a th:if="${reservationSeat.status.equals('FREE')}" th:href="@{/shopping-cart/{reservationSeatId}/put(reservationSeatId=${reservationSeat.id})}" class="card-link" th:data-seatno="${reservationSeat.seat.numberNo}" onclick="showAlert(this.getAttribute('data-seatno'))">Make Reservation</a>
                         <span th:if="!${reservationSeat.status.equals('FREE')}"  class="text-muted">Reserved</span>
                     </div>
                 </div>
@@ -105,13 +105,9 @@
         </div>
     </div>
 
-    <!-- ... (remaining code) ... -->
-
-    <script th:inline="javascript">
-        /* Add JavaScript function to handle reservation logic */
-        function makeReservation(seatId) {
-
-            alert('Reservation for seat ' + seatId + ' is successful!');
+    <script>
+        function showAlert(seatNo) {
+            alert(`Seat ${seatNo} has been added to the cart.`);
         }
     </script>
 </div>

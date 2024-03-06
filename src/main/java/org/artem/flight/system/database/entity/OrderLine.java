@@ -26,4 +26,7 @@ public class OrderLine implements BaseEntity<Long> {
     private ReservationSeat reservationSeat;
 
     private Integer price;
+
+    private String firstName;
+    private String lastName;
 }

@@ -9,4 +9,6 @@ public class OrderLineReadDto {
     ReservationSeatReadDto reservationSeat;
 
     Integer price;
+    String firstName;
+    String lastName;
 }

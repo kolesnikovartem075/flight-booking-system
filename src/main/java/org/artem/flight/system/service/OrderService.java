@@ -43,7 +43,7 @@ public class OrderService {
         var orderReadDto = create(orderDto);
         var shoppingCart = getShoppingCart(orderDto.getSessionId());
 
-        createOrderLines(orderReadDto, shoppingCart);
+        createOrderLines(orderReadDto, orderDto);
         deleteShoppingCart(orderDto.getSessionId());
 
         return orderReadDto;
@@ -80,9 +80,9 @@ public class OrderService {
         return shoppingCartService.findBy(sessionId).orElseThrow();
     }
 
-    private void createOrderLines(OrderReadDto orderDto, ShoppingCartReadDto shoppingCart) {
-        shoppingCart.getItems().stream()
-                .map(it -> new OrderLineCreateEditDto(orderDto.getId(), it.getReservationSeat().getId(), it.getReservationSeat().getPrice()))
+    private void createOrderLines(OrderReadDto orderDto, OrderCreateEditDto orderCreateDto) {
+        orderCreateDto.getOrderLineCreateEditDtos().stream()
+                .peek(orderLine -> orderLine.setCustomerOrderId(orderDto.getId()))
                 .map(orderLineService::create)
                 .map(OrderLineReadDto::getReservationSeat)
                 .map(ReservationSeatReadDto::getId)
