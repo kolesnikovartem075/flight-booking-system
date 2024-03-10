@@ -7,6 +7,7 @@ import org.artem.flight.system.dto.*;
 import org.artem.flight.system.mapper.OrderCreateEditMapper;
 import org.artem.flight.system.mapper.OrderReadMapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,12 @@ public class OrderService {
                 .toList();
     }
 
+    public List<OrderReadDto> findAllByCustomer(UserDetails userDetails) {
+        return orderRepository.findByCustomerEmail(userDetails.getUsername()).stream()
+                .map(orderReadMapper::map)
+                .toList();
+    }
+
     public Optional<OrderReadDto> findById(Long id) {
         return orderRepository.findById(id)
                 .map(orderReadMapper::map);
@@ -41,7 +48,6 @@ public class OrderService {
     @Transactional
     public OrderReadDto createOrder(OrderCreateEditDto orderDto) {
         var orderReadDto = create(orderDto);
-        var shoppingCart = getShoppingCart(orderDto.getSessionId());
 
         createOrderLines(orderReadDto, orderDto);
         deleteShoppingCart(orderDto.getSessionId());

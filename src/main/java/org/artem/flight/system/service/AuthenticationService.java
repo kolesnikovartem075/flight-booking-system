@@ -1,6 +1,7 @@
 package org.artem.flight.system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.repository.CustomerRepository;
 import org.artem.flight.system.database.repository.ManagerRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 
 @Service
@@ -16,15 +18,37 @@ import java.util.Collections;
 public class AuthenticationService implements UserDetailsService {
 
     private final ManagerRepository managerRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return managerRepository.findByUsername(username)
-                .map(entity -> new User(
-                        entity.getUsername(),
+        Optional<User> customer = getCustomer(username);
+        Optional<User> manager = getManager(username);
+
+        if (customer.isPresent()) {
+            return customer.get();
+        }
+
+        if (manager.isPresent()) {
+            return manager.get();
+        }
+
+        throw new UsernameNotFoundException("Failed to retrieve user: " + username);
+    }
+
+    private Optional<User> getCustomer(String email) {
+        return customerRepository.findByEmail(email)
+                .map(entity -> new User(entity.getEmail(),
                         entity.getPassword(),
-                        Collections.singleton(entity.getRole()))
-                )
-                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
+                        Collections.singleton(entity.getRole())
+                ));
+    }
+
+    private Optional<User> getManager(String username) {
+        return managerRepository.findByUsername(username)
+                .map(entity -> new User(entity.getUsername(),
+                        entity.getPassword(),
+                        Collections.singleton(entity.getRole())
+                ));
     }
 }

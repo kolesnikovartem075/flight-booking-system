@@ -3,12 +3,16 @@ package org.artem.flight.system.http.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.artem.flight.system.database.entity.OrderStatus;
+import org.artem.flight.system.database.entity.Role;
 import org.artem.flight.system.dto.OrderCreateEditDto;
+import org.artem.flight.system.dto.OrderReadDto;
 import org.artem.flight.system.dto.ShoppingCartReadDto;
 import org.artem.flight.system.service.OrderService;
 import org.artem.flight.system.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RequestMapping("/orders")
 @Controller
@@ -28,8 +33,8 @@ public class OrderController {
     private final ShoppingCartService shoppingCartService;
 
     @GetMapping
-    public String findAll(Model model) {
-        var orders = orderService.findAll();
+    public String findAll(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        var orders = getOrders(userDetails);
         model.addAttribute("orders", orders);
 
         return "order/orders";
@@ -113,5 +118,11 @@ public class OrderController {
     private ShoppingCartReadDto getShoppingCartReadDto(String sessionId) {
         return shoppingCartService.findBy(sessionId)
                 .orElseThrow();
+    }
+
+    private List<OrderReadDto> getOrders(UserDetails userDetails) {
+        return userDetails.getAuthorities().contains(Role.MANAGER)
+                ? orderService.findAll()
+                : orderService.findAllByCustomer(userDetails);
     }
 }

@@ -70,8 +70,10 @@ CREATE TABLE schedule
 --changeset artem:8
 CREATE TABLE customer
 (
-    id    BIGSERIAL PRIMARY KEY,
-    email VARCHAR(128),
+    id       BIGSERIAL PRIMARY KEY,
+    email    VARCHAR(64) NOT NULL,
+    password VARCHAR(128),
+    role     VARCHAR(32) DEFAULT 'CUSTOMER',
     UNIQUE (email)
 );
 
