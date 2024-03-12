@@ -67,7 +67,7 @@
     <!-- Add a form or link for updating or deleting the schedule -->
     <h3>Seats</h3>
     <div class="row">
-        <div th:each="reservationSeat : ${schedule.reservationSeats}" class=" col-sm-3">
+        <div th:each="reservationSeat : ${schedule.reservationSeats}" class=" col-sm-4">
             <div class="border mb-3 p-3">
                 <div class="row mb-2">
                     <label for="numberNo" class="col-sm-4 col-form-label">NumberNO:</label>
@@ -98,7 +98,7 @@
                 <div class="row mb-3">
                     <div class="col-sm-12">
                         <a th:if="${reservationSeat.status.equals('FREE')}" th:href="@{/shopping-cart/{reservationSeatId}/put(reservationSeatId=${reservationSeat.id})}" class="card-link" th:data-seatno="${reservationSeat.seat.numberNo}" onclick="showAlert(this.getAttribute('data-seatno'))">Make Reservation</a>
-                        <span th:if="!${reservationSeat.status.equals('FREE')}"  class="text-muted">Reserved</span>
+                        <span th:if="!${reservationSeat.status.equals('FREE')}"  class="text-muted" th:text="${reservationSeat.status}"></span>
                     </div>
                 </div>
             </div>

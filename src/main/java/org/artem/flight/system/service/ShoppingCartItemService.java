@@ -1,6 +1,7 @@
 package org.artem.flight.system.service;
 
 import lombok.RequiredArgsConstructor;
+import org.artem.flight.system.database.repository.ReservationSeatRepository;
 import org.artem.flight.system.database.repository.ShoppingCartItemRepository;
 import org.artem.flight.system.dto.ShoppingCartItemCreateEditDto;
 import org.artem.flight.system.dto.ShoppingCartItemReadDto;
@@ -21,6 +22,7 @@ public class ShoppingCartItemService {
     private final ShoppingCartItemRepository shoppingCartItemRepository;
     private final ShoppingCartItemReadMapper shoppingCartItemReadMapper;
     private final ShoppingCartItemCreateEditMapper shoppingCartItemCreateEditMapper;
+    private final ReservationSeatRepository reservationSeatRepository;
 
     public List<ShoppingCartItemReadDto> findAll() {
         return shoppingCartItemRepository.findAll().stream()

@@ -18,8 +18,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(urlConfig -> urlConfig
-                        .antMatchers("/login", "/js/**", "/css/**", "/images/**").permitAll()
-                        .antMatchers("/schedules/**", "/flights/**", "/airlines/**", "/airports/**", "/orders/**", "/shopping-cart/**", "/shopping-cart-item/*", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .antMatchers("/login","/logout", "/customers/**", "/js/**", "/css/**", "/images/**").permitAll()
+                        .antMatchers("/schedules/**", "/flights/**", "/airlines/**", "/airports/**", "/orders/**", "/shopping-cart/**", "/shopping-cart-item/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .logout(logout -> logout

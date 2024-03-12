@@ -30,6 +30,7 @@ public class ShoppingCartController {
     @GetMapping
     public String find(HttpSession session, Model model) {
         return shoppingCartService.findBy(session.getId())
+                .filter(shoppingCart -> !shoppingCart.getItems().isEmpty())
                 .map(shoppingCart -> {
                     model.addAttribute("shoppingCart", shoppingCart);
                     return "shoppingCart/shoppingCart";
