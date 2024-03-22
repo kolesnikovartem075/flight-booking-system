@@ -75,6 +75,14 @@ public class OrderService {
                 .orElse(false);
     }
 
+    @Transactional
+    public Optional<OrderReadDto> update(Long id, OrderCreateEditDto order) {
+        return orderRepository.findById(id)
+                .map(entity -> orderCreateEditMapper.map(order, entity))
+                .map(orderRepository::saveAndFlush)
+                .map(orderReadMapper::map);
+    }
+
     private void deleteShoppingCart(String sessionId) {
         Optional.of(getShoppingCart(sessionId))
                 .map(ShoppingCartReadDto::getId)
@@ -93,13 +101,5 @@ public class OrderService {
                 .map(OrderLineReadDto::getReservationSeat)
                 .map(ReservationSeatReadDto::getId)
                 .forEach(reservationId -> reservationSeatService.updateStatus(reservationId, ReservationStatus.RESERVED));
-    }
-
-    @Transactional
-    public Optional<OrderReadDto> update(Long id, OrderCreateEditDto order) {
-        return orderRepository.findById(id)
-                .map(entity -> orderCreateEditMapper.map(order, entity))
-                .map(orderRepository::saveAndFlush)
-                .map(orderReadMapper::map);
     }
 }

@@ -59,7 +59,7 @@ public class AirportController {
             return "redirect:/airports/create";
         }
 
-        return "redirect:/airports/" + airportService.createWithCity(airport).getId();
+        return "redirect:/airports/" + airportService.create(airport).getId();
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")

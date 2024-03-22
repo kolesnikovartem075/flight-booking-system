@@ -6,7 +6,6 @@ import org.artem.flight.system.dto.AirportCreateEditDto;
 import org.artem.flight.system.dto.AirportReadDto;
 import org.artem.flight.system.mapper.airport.AirportCreateEditMapper;
 import org.artem.flight.system.mapper.airport.AirportReadMapper;
-import org.artem.flight.system.mapper.city.CityCreateEditMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,15 +37,6 @@ public class AirportService {
     @Transactional
     public AirportReadDto create(AirportCreateEditDto airportDto) {
         return Optional.of(airportDto)
-                .map(airportCreateEditMapper::map)
-                .map(airportRepository::save)
-                .map(airportReadMapper::map)
-                .orElseThrow();
-    }
-
-    @Transactional
-    public AirportReadDto createWithCity(AirportCreateEditDto airportDto) {
-        return Optional.of(airportDto)
                 .map(cityService::createForAirport)
                 .map(it -> airportCreateEditMapper.map(it, airportDto.getName()))
                 .map(airportRepository::save)
@@ -56,14 +46,6 @@ public class AirportService {
 
     @Transactional
     public Optional<AirportReadDto> update(Long id, AirportCreateEditDto airportDto) {
-        return airportRepository.findById(id)
-                .map(entity -> airportCreateEditMapper.map(airportDto, entity))
-                .map(airportRepository::saveAndFlush)
-                .map(airportReadMapper::map);
-    }
-
-    @Transactional
-    public Optional<AirportReadDto> updateWithCity(Long id, AirportCreateEditDto airportDto) {
         return airportRepository.findById(id)
                 .map(entity -> airportCreateEditMapper.map(airportDto, entity))
                 .map(airportRepository::saveAndFlush)
