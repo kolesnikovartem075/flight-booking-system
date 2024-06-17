@@ -20,7 +20,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(urlConfig -> urlConfig
                         .antMatchers("/login","/logout", "/customers/**", "/js/**", "/css/**", "/images/**").permitAll()
                         .antMatchers("/schedules/**", "/flights/**", "/airlines/**", "/airports/**", "/orders/**", "/shopping-cart/**", "/shopping-cart-item/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
