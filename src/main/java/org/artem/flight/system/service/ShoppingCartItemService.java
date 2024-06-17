@@ -30,12 +30,6 @@ public class ShoppingCartItemService {
                 .toList();
     }
 
-    public List<ShoppingCartItemReadDto> findAllBy(Long shoppingCartId) {
-        return shoppingCartItemRepository.findAllByShoppingCartId(shoppingCartId).stream()
-                .map(shoppingCartItemReadMapper::map)
-                .toList();
-    }
-
     public Optional<ShoppingCartItemReadDto> findById(Long id) {
         return shoppingCartItemRepository.findById(id)
                 .map(shoppingCartItemReadMapper::map);
